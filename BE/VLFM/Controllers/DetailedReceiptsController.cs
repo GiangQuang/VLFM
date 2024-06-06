@@ -30,10 +30,6 @@ namespace VLFM.Controllers
             string quantity = HttpContext.Request.Query.ContainsKey("quantity") ? HttpContext.Request.Query["quantity"].ToString() : null;
             string Price = HttpContext.Request.Query.ContainsKey("Price") ? HttpContext.Request.Query["Price"].ToString() : null;
             string Brand = HttpContext.Request.Query.ContainsKey("Brand") ? HttpContext.Request.Query["Brand"].ToString() : null;
-            string WarrantydayAt = HttpContext.Request.Query.ContainsKey("WarrantydayAt") ? HttpContext.Request.Query["WarrantydayAt"].ToString() : null;
-            string WarrantydayEnd = HttpContext.Request.Query.ContainsKey("WarrantydayEnd") ? HttpContext.Request.Query["WarrantydayEnd"].ToString() : null;
-            string StatusID = HttpContext.Request.Query.ContainsKey("StatusID") ? HttpContext.Request.Query["StatusID"].ToString() : null;
-            string ProposeID = HttpContext.Request.Query.ContainsKey("ProposeID") ? HttpContext.Request.Query["ProposeID"].ToString() : null;
             if (!string.IsNullOrEmpty(DtReceiptID))
             {
                 DetailsList = DetailsList.Where(d => d.DtReceiptID.Contains(DtReceiptID, StringComparison.OrdinalIgnoreCase)).ToList();
@@ -65,30 +61,6 @@ namespace VLFM.Controllers
             if (!string.IsNullOrEmpty(Brand))
             {
                 DetailsList = DetailsList.Where(d => d.Brand.Contains(Brand, StringComparison.OrdinalIgnoreCase)).ToList();
-            }
-            if (!string.IsNullOrEmpty(WarrantydayAt))
-            {
-                DateTime parsedWarrantydayAt;
-                if (DateTime.TryParse(WarrantydayAt, out parsedWarrantydayAt))
-                {
-                    DetailsList = DetailsList.Where(d => d.WarrantydayAt == parsedWarrantydayAt).ToList();
-                }
-            }
-            if (!string.IsNullOrEmpty(WarrantydayEnd))
-            {
-                DateTime parsedWarrantydayEnd;
-                if (DateTime.TryParse(WarrantydayEnd, out parsedWarrantydayEnd))
-                {
-                    DetailsList = DetailsList.Where(d => d.WarrantydayEnd == parsedWarrantydayEnd).ToList();
-                }
-            }
-            if (!string.IsNullOrEmpty(StatusID))
-            {
-                DetailsList = DetailsList.Where(d => d.StatusID.ToString().Contains(StatusID, StringComparison.OrdinalIgnoreCase)).ToList();
-            }
-            if (!string.IsNullOrEmpty(ProposeID))
-            {
-                DetailsList = DetailsList.Where(d => d.ProposeID.ToString().Contains(ProposeID, StringComparison.OrdinalIgnoreCase)).ToList();
             }
             var responseData = new
             {

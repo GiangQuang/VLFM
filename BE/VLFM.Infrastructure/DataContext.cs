@@ -25,6 +25,7 @@ namespace VLFM.Infrastructure
         public DbSet<ProviderDetails> Providers { get; set; }
         public DbSet<ReceiptDetails> Receipts { get; set; }
         public DbSet<DetailedReceiptDetails> DetailedReceipts { get; set; }
+        public DbSet<PropertyImportDetails> PropertyImports { get; set; }
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             if (!optionsBuilder.IsConfigured)
