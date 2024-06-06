@@ -16,7 +16,7 @@
     "/api/currentUser": {
       "get": {
         "tags": ["api"],
-        "description": "获取当前的用户",
+        "description": "Nhận người dùng hiện tại",
         "operationId": "currentUser",
         "responses": {
           "200": {
@@ -43,38 +43,9 @@
       },
       "x-swagger-router-controller": "api"
     },
-    "/api/login/captcha": {
-      "post": {
-        "description": "发送验证码",
-        "operationId": "getFakeCaptcha",
-        "tags": ["login"],
-        "parameters": [
-          {
-            "name": "phone",
-            "in": "query",
-            "description": "手机号",
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Success",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/FakeCaptcha"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
     "/api/login/outLogin": {
       "post": {
-        "description": "登录接口",
+        "description": "Giao diện đăng nhập",
         "operationId": "outLogin",
         "tags": ["login"],
         "responses": {
@@ -105,7 +76,7 @@
     "/api/user/login": {
       "post": {
         "tags": ["login"],
-        "description": "登录接口",
+        "description": "Giao diện đăng nhập",
         "operationId": "login",
         "requestBody": {
           "description": "登录系统",
@@ -143,26 +114,6 @@
         "x-codegen-request-body-name": "body"
       },
       "x-swagger-router-controller": "api"
-    },
-    "/api/notices": {
-      "summary": "getNotices",
-      "description": "NoticeIconItem",
-      "get": {
-        "tags": ["api"],
-        "operationId": "getNotices",
-        "responses": {
-          "200": {
-            "description": "Success",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/NoticeIconList"
-                }
-              }
-            }
-          }
-        }
-      }
     },
     "/api/rule": {
       "get": {

@@ -53,9 +53,9 @@ export const AvatarDropdown: React.FC<GlobalHeaderRightProps> = ({ menu, childre
         const urlParams = new URL(window.location.href).searchParams;
         const redirect = urlParams.get('redirect');
         console.log("Redirecting to login page");
-        if (pathname !== '/user/login' && !redirect) {
+        if (pathname !== '/' && !redirect) {
           history.replace({
-            pathname: '/user/login',
+            pathname: '/',
             search: stringify({
               redirect: pathname + search,
             }),

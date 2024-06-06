@@ -13,19 +13,19 @@
 
 export default [
   {
-    path: '/user',
+    path: '/',
     layout: false,
     
     routes: [
       {
-        path: '/user/login',
+        path: '/',
         layout: false,
         name: 'login',
         component: './user/login',
       },
       {
-        path: '/user',
-        redirect: '/user/login',
+        path: '/',
+        redirect: '/',
       },
       // {
       //   name: 'register-result',
@@ -105,7 +105,7 @@ export default [
   // },
   {
     path: '/category',
-    icon: 'table',
+    icon: 'profile',
     name: 'Quản lý danh mục',
     routes: [
 
@@ -264,7 +264,7 @@ export default [
   {
     path: '/storage',
     name: 'Quản lý nhập kho',
-    icon: 'profile',
+    icon: 'table',
     routes: [
 
       //Quản lý nhà cung cấp
@@ -322,6 +322,25 @@ export default [
         path: '/storage/detailedreceipt/update/:id',
         hideInMenu: true,
         component: './detailedreceiptmanagement/addEdit.tsx',
+      },
+
+      //Quản lý tài sản nhập
+      {
+        name: 'Quản lý tài sản nhập',
+        path: '/storage/propertyimport',
+        component: './propertyimportmanagement/',
+      },
+      {
+        name: 'Thêm nhà tài sản nhập',
+        path: '/storage/propertyimport/add',
+        hideInMenu: true,
+        component: './propertyimportmanagement/addEdit.tsx',
+      },
+      {
+        name: 'Cập nhật tài sản nhập',
+        path: '/storage/propertyimport/update/:id',
+        hideInMenu: true,
+        component: './propertyimportmanagement/addEdit.tsx',
       },
     ],
   },
