@@ -19,6 +19,7 @@ namespace VLFM.Core.Interfaces
         IProviderRepository Providers { get; }
         IReceiptRepository Receipts { get; }
         IDetailedReceiptRepository ReceiptsDetailed { get; }
+        IPropertyImportRepository PropertyImports { get; }
         int Save();
     }
 }

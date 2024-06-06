@@ -60,14 +60,10 @@ namespace VLFM.Services
                 var detailedreceipts = await _unitOfWork.ReceiptsDetailed.GetAll();
                 var rececipts = await _unitOfWork.Receipts.GetAll();
                 var properties = await _unitOfWork.Properties.GetAll();
-                var statuses = await _unitOfWork.Statuses.GetAll();
-                var proposes = await _unitOfWork.Proposes.GetAll();
 
                 var query = from drec in detailedreceipts
                             join rec in rececipts on drec.ReceiptID equals rec.ReceiptID
                             join prop in properties on drec.PropertyID equals prop.PropertyID
-                            join sta in statuses on drec.StatusID equals sta.StatusID
-                            join props in proposes on drec.ProposeID equals props.ProposeID
                             select new DetailedReceiptResponse
                             {
                                 Id = drec.Id,
@@ -77,10 +73,6 @@ namespace VLFM.Services
                                 quantity = drec.quantity,
                                 Price = drec.Price,
                                 Brand = drec.Brand,
-                                WarrantydayAt = drec.WarrantydayAt,
-                                WarrantydayEnd = drec.WarrantydayEnd,
-                                StatusID = drec.StatusID,
-                                ProposeID = drec.ProposeID,
                             };
                 return query.ToList();
             }
@@ -97,8 +89,6 @@ namespace VLFM.Services
                 var detailedreceipts = await _unitOfWork.ReceiptsDetailed.GetById(Id);
                 var rececipts = await _unitOfWork.Receipts.GetAll();
                 var properties = await _unitOfWork.Properties.GetAll();
-                var statuses = await _unitOfWork.Statuses.GetAll();
-                var proposes = await _unitOfWork.Proposes.GetAll();
 
                 if (rececipts != null)
                 {
@@ -106,8 +96,6 @@ namespace VLFM.Services
                     {
                         var rececipt = rececipts.FirstOrDefault(rec => rec.ReceiptID == detailedreceipts.ReceiptID);
                         var property = properties.FirstOrDefault(prop => prop.PropertyID == detailedreceipts.PropertyID);
-                        var status = statuses.FirstOrDefault(sta => sta.StatusID == detailedreceipts.StatusID);
-                        var propose= proposes.FirstOrDefault(props => props.ProposeID == detailedreceipts.ProposeID);
                         var response = new DetailedReceiptResponse
                         {
                             Id = detailedreceipts.Id,
@@ -117,10 +105,6 @@ namespace VLFM.Services
                             quantity = detailedreceipts.quantity,
                             Price = detailedreceipts.Price,
                             Brand = detailedreceipts.Brand,
-                            WarrantydayAt = detailedreceipts.WarrantydayAt,
-                            WarrantydayEnd = detailedreceipts.WarrantydayEnd,
-                            StatusID = detailedreceipts.StatusID,
-                            ProposeID = detailedreceipts.ProposeID,
                         };
 
                         return response;
@@ -146,10 +130,6 @@ namespace VLFM.Services
                     detailedreceipt.quantity = detailedReceipt.quantity;
                     detailedreceipt.Price = detailedReceipt.Price;
                     detailedreceipt.Brand = detailedReceipt.Brand;
-                    detailedreceipt.WarrantydayAt = detailedReceipt.WarrantydayAt;
-                    detailedreceipt.WarrantydayEnd = detailedReceipt.WarrantydayEnd;
-                    detailedreceipt.StatusID = detailedReceipt.StatusID;
-                    detailedreceipt.ProposeID = detailedReceipt.ProposeID;
                     _unitOfWork.ReceiptsDetailed.Update(detailedreceipt);
                     var result = _unitOfWork.Save();
 

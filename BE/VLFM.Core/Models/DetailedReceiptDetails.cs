@@ -27,15 +27,5 @@ namespace VLFM.Core.Models
         public int Price { get; set; }
         [StringLength(150)]
         public string Brand { get; set; }
-        [Required]
-        public DateTime WarrantydayAt { get; set; }
-        [Required]
-        public DateTime WarrantydayEnd { get; set; }
-        [Required]
-        [StringLength(14)]
-        public string StatusID { get; set; }
-        [Required]
-        [StringLength(14)]
-        public string ProposeID { get; set; }
     }
 }
