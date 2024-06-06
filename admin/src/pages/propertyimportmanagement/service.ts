@@ -19,7 +19,7 @@ export async function getAll(
     /** The total number of items in the list */
     total?: number;
     success?: boolean;
-  }>('api/detailedreceipt/', {
+  }>('api/propertyimport/', {
     method: 'GET',
     params: {
       ...params,
@@ -28,7 +28,7 @@ export async function getAll(
   });
 }
 
-export async function getAllreceipt(
+export async function getAlldetailedreceipt(
   params: {
     // query
     /** Current page number */
@@ -43,7 +43,7 @@ export async function getAllreceipt(
     /** The total number of items in the list */
     total?: number;
     success?: boolean;
-  }>('api/receipt/', {
+  }>('api/detailedreceipt/', {
     method: 'GET',
     params: {
       ...params,
@@ -76,10 +76,34 @@ export async function getAllproperty(
   });
 }
 
+export async function getAllstatus(
+  params: {
+    // query
+    /** Current page number */
+    current?: number;
+    /** page size */
+    pageSize?: number;
+  },
+  options?: { [key: string]: any },
+) {
+  return request<{
+    data: TableListItem[];
+    /** The total number of items in the list */
+    total?: number;
+    success?: boolean;
+  }>('api/status/', {
+    method: 'GET',
+    params: {
+      ...params,
+    },
+    ...(options || {}),
+  });
+}
+
 
 /** New lead PUT /api/lead */
 export async function updateOne(data: { [key: string]: any }, options?: { [key: string]: any }) {
-  return request<TableListItem>(`api/detailedreceipt/${data?.id}`, {
+  return request<TableListItem>(`api/propertyimport/${data?.id}`, {
     data,
     method: 'POST',
     ...(options || {}),
@@ -88,7 +112,7 @@ export async function updateOne(data: { [key: string]: any }, options?: { [key: 
 
 /** New lead POST /api/lead */
 export async function addOne(data: { [key: string]: any }, options?: { [key: string]: any }) {
-  return request<TableListItem>('api/detailedreceipt', {
+  return request<TableListItem>('api/propertyimport', {
     data,
     method: 'POST',
     ...(options || {}),
@@ -97,7 +121,7 @@ export async function addOne(data: { [key: string]: any }, options?: { [key: str
 
 /** delete lead DELETE /api/lead */
 export async function removeMany(data: any, options?: any) {
-  return request<Record<string, any>>('api/detailedreceipt', {
+  return request<Record<string, any>>('api/propertyimport', {
     data,
     method: 'DELETE',
     ...(options || {}),
@@ -165,7 +189,7 @@ export async function importOne(data: { [key: string]: any }, options?: { [key: 
 }
 
 export async function getById(id: string): Promise<{ data: [] }> {
-  return request(`api/detailedreceipt/${id}`);
+  return request(`api/propertyimport/${id}`);
 }
 
 // export async function getHistory(id: string): Promise<{ data: [] }> {

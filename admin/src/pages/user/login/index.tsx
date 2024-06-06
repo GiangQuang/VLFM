@@ -126,7 +126,7 @@ const Login: React.FC = () => {
         message.success(defaultLoginSuccessMessage);
         await fetchUserInfo();
         const urlParams = new URL(window.location.href).searchParams;
-        window.location.href = urlParams.get('redirect') || '/';
+        window.location.href = urlParams.get('redirect') || '/category/employee';
         return;
       }
       console.log(msg);
@@ -135,7 +135,7 @@ const Login: React.FC = () => {
     } catch (error) {
       const defaultLoginFailureMessage = intl.formatMessage({
         id: 'pages.login',
-        defaultMessage: 'Đăng nhập thất bại. Xin hãy thử lại！',
+        defaultMessage: 'Sai tên tài khoản hoặc mật khẩu！',
       });
       console.log(error);
       message.error(defaultLoginFailureMessage);

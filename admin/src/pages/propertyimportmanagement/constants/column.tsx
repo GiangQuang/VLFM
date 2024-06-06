@@ -9,27 +9,29 @@ export const column: ProColumns<TableListItem>[] = [
     valueType: 'index',
   },
   {
-    title: 'Mã dự phòng',
-    dataIndex: 'dtReceiptID',
+    title: 'Mã tài sản nhập',
+    dataIndex: 'propImportID',
   },
   {
     title: 'Mã hoá đơn nhập',
-    dataIndex: ['receiptID'],
+    dataIndex: ['dtReceiptID'],
   },
   {
     title: 'Mã tài sản',
     dataIndex: ['propertyID'],
   },
   {
-    title: 'Số lượng',
-    dataIndex: 'quantity',
+    title: 'Ngày bảo hành',
+    dataIndex: 'warrantydayAt',
+    valueType: 'date',
   },
   {
-    title: 'Đơn giá',
-    dataIndex: 'price',
+    title: 'Ngày hết bảo hành',
+    dataIndex: 'warrantydayEnd',
+    valueType: 'date',
   },
   {
-    title: 'Nhãn hiệu',
-    dataIndex: 'brand',
+    title: 'Mã trạng thái',
+    dataIndex: ['statusID'],
   },
 ];

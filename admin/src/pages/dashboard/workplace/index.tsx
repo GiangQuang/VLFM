@@ -151,7 +151,7 @@ const Workplace: FC = () => {
             }}
             title="进行中的项目"
             bordered={false}
-            extra={<Link to="/">全部项目</Link>}
+            extra={<Link to="/workplace">全部项目</Link>}
             loading={projectLoading}
             bodyStyle={{
               padding: 0,
