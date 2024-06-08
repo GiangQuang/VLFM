@@ -344,6 +344,32 @@ export default [
       },
     ],
   },
+  {
+    path: '/device',
+    name: 'Quản lý thiết bị',
+    icon: 'DesktopOutlined',
+    routes: [
+
+      //Quản lý cấp phát thiết bị
+      {
+        name: 'Quản lý cấp phát thiết bị',
+        path: '/device/assignment',
+        component: './deviceassignmentmanagement/',
+      },
+      {
+        name: 'Thêm phiếu cấp thiết bị',
+        path: '/device/assignment/add',
+        hideInMenu: true,
+        component: './deviceassignmentmanagement/addEdit.tsx',
+      },
+      {
+        name: 'Cập nhật phiếu cấp thiết bị',
+        path: '/device/assignment/update/:id',
+        hideInMenu: true,
+        component: './deviceassignmentmanagement/addEdit.tsx',
+      },
+    ],
+  },
   // {
   //   name: 'exception',
   //   icon: 'warning',
