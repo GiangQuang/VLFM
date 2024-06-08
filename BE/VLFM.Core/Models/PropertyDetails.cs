@@ -26,6 +26,6 @@ namespace VLFM.Core.Models
         [StringLength(20)]
         public string Unit { get; set; }
         [StringLength(50)]
-        public string Note { get; set; }
+        public string? Note { get; set; }
     }
 }

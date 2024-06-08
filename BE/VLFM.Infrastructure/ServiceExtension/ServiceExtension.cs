@@ -28,6 +28,7 @@ namespace VLFM.Infrastructure.ServiceExtension
             services.AddScoped<IReceiptRepository, ReceiptRepository>();
             services.AddScoped<IDetailedReceiptRepository, DetailedReceiptRepository>();
             services.AddScoped<IPropertyImportRepository, PropertyImportRepository>();
+            services.AddScoped<IDeviceAssignmentRepository, DeviceAssignmentRepository>();
 
             return services;
         }
