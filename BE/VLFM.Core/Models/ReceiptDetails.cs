@@ -27,6 +27,6 @@ namespace VLFM.Core.Models
         [StringLength(10)]
         public string Receiptcode { get; set; }
         [StringLength(50)]
-        public string Note { get; set; }
+        public string? Note { get; set; }
     }
 }

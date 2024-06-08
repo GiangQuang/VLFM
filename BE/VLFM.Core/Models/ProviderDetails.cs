@@ -22,7 +22,7 @@ namespace VLFM.Core.Models
         [StringLength(150)]
         public string Address { get; set; }
         [StringLength(50)]
-        public string Note { get; set; }
+        public string? Note { get; set; }
     }
 }
 

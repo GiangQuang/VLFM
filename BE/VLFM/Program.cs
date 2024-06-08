@@ -27,6 +27,7 @@ builder.Services.AddScoped<IProviderService, ProviderService>();
 builder.Services.AddScoped<IReceiptService, ReceiptService>();
 builder.Services.AddScoped<IDetailedReceiptService, DetailedReceiptService>();
 builder.Services.AddScoped<IPropertyImportService, PropertyImportService>();
+builder.Services.AddScoped<IDeviceAssignmentService, DeviceAssignmentService>();
 builder.Services.AddScoped<IJwtService, JwtService>();
 builder.Services.AddScoped<IPasswordService, PasswordService>();
 builder.Services.AddControllers();

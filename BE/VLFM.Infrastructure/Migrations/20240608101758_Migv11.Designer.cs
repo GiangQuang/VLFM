@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using VLFM.Infrastructure;
 
@@ -11,9 +12,10 @@ using VLFM.Infrastructure;
 namespace VLFM.Infrastructure.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20240608101758_Migv11")]
+    partial class Migv11
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -133,6 +135,7 @@ namespace VLFM.Infrastructure.Migrations
                         .HasColumnType("date");
 
                     b.Property<DateTime?>("AssignEnd")
+                        .IsRequired()
                         .HasColumnType("datetime2");
 
                     b.Property<string>("DeptID")
@@ -164,6 +167,7 @@ namespace VLFM.Infrastructure.Migrations
                         .HasColumnType("nvarchar(44)");
 
                     b.Property<DateTime?>("ProposeAt")
+                        .IsRequired()
                         .HasColumnType("datetime2");
 
                     b.Property<string>("ProposeContent")
