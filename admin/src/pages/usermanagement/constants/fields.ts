@@ -1,4 +1,4 @@
-import { getAllemployee } from '../service';
+import { getAllemployee, getAllrole } from '../service';
 
 export const fields = (id, form) => [
   {
@@ -12,11 +12,20 @@ export const fields = (id, form) => [
           xs: 24,
           md: 6,
         },
+        formItemProps: {
+          rules: [
+            {
+              required: true,
+              message: 'Vui lòng chọn mã nhân viên!',
+            },
+          ],
+        },
         request: async () => {
           const res = await getAllemployee();
-          return res.data.map((item) => {
-            return {label:`${item?.employeeID} - ${item?.employeename} `, value: item?.employeeID}
-          });
+          return res.data.map((item) => ({
+            label: `${item?.employeeID} - ${item?.employeename}`,
+            value: item?.employeeID,
+          }));
         },
       },
       {
@@ -26,6 +35,18 @@ export const fields = (id, form) => [
           xs: 24,
           md: 6,
         },
+        formItemProps: {
+          rules: [
+            {
+              required: true,
+              message: 'Vui lòng nhập tên tài khoản!',
+            },
+            {
+              pattern: /^[a-zA-Z0-9]+$/,
+              message: 'Chỉ cho phép nhập ký tự hoặc số!',
+            },
+          ],
+        },
       },
       {
         title: 'Mật khẩu',
@@ -34,36 +55,61 @@ export const fields = (id, form) => [
           xs: 24,
           md: 6,
         },
+        formItemProps: {
+          rules: [
+            {
+              required: true,
+              message: 'Vui lòng nhập mật khẩu!',
+            },
+          ],
+        },
       },
       {
         title: 'Role',
-        dataIndex: 'role',
-        request: async () => {
-          return [
-            { label: 'Admin', value: 'admin' },
-            { label: 'User', value: 'user' },
-          ];
-        },
+        dataIndex: ['roleId'],
         type: 'select',
         colProps: {
           xs: 24,
           md: 6,
         },
+        formItemProps: {
+          rules: [
+            {
+              required: true,
+              message: 'Vui lòng chọn role!',
+            },
+          ],
+        },
+        request: async () => {
+          const res = await getAllrole();
+          return res.data.map((item) => ({
+            label: `${item?.rolename}`,
+            value: item?.roleId,
+          }));
+        },
       },
       {
-        // hideInForm: true,
         title: 'Trạng thái',
         dataIndex: 'status',
+        type: 'select',
+        colProps: {
+          xs: 24,
+          md: 6,
+        },
+        formItemProps: {
+          rules: [
+            {
+              required: true,
+              message: 'Vui lòng chọn trạng thái!',
+            },
+          ],
+        },
+        initialValue: 0,
         request: async () => {
           return [
             { label: 'Đang làm việc', value: 0 },
             { label: 'Đã nghỉ', value: 1 },
           ];
-        },
-        type: 'select',
-        colProps: {
-          xs: 24,
-          md: 6,
         },
       },
     ],

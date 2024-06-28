@@ -50,7 +50,7 @@ const InfoCard: React.FC<{
             color: '#FFF',
             fontWeight: 'bold',
             backgroundImage:
-              "url('https://gw.alipayobjects.com/zos/bmw-prod/daaf8d50-8e6d-4251-905d-676a24ddfa12.svg')",
+              "url('https://insacmau.com/wp-content/uploads/2023/02/logo-van-lang-896x1024.png')",
           }}
         >
           {index}

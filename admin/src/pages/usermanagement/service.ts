@@ -28,6 +28,30 @@ export async function getAll(
   });
 }
 
+export async function getAllrole(
+  params: {
+    // query
+    /** Current page number */
+    current?: number;
+    /** page size */
+    pageSize?: number;
+  },
+  options?: { [key: string]: any },
+) {
+  return request<{
+    data: TableListItem[];
+    /** The total number of items in the list */
+    total?: number;
+    success?: boolean;
+  }>('api/role/', {
+    method: 'GET',
+    params: {
+      ...params,
+    },
+    ...(options || {}),
+  });
+}
+
 export async function getAllemployee(
   // params: {
   //   // query

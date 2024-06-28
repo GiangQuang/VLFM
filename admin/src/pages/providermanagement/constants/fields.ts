@@ -20,7 +20,7 @@ export const fields = (id, form) => [
         dataIndex: 'providername',
         colProps: {
           xs: 24,
-          md: 6,
+          md: 10,
         },
       },
       {
@@ -28,7 +28,7 @@ export const fields = (id, form) => [
         dataIndex: 'address',
         colProps: {
           xs: 24,
-          md: 6,
+          md: 10,
         },
       },
       {

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using VLFM.Core.DTO;
 using VLFM.Core.Interfaces;
 using VLFM.Core.Models;
 using VLFM.Core.Response;
@@ -57,35 +58,25 @@ namespace VLFM.Services
         {
             try
             {
-                var deviceAssignment = await _unitOfWork.DeviceAssignments.GetAll();
-                var employee = await _unitOfWork.Employees.GetAll();
-                var propertyImport = await _unitOfWork.PropertyImports.GetAll();
-                var department = await _unitOfWork.Departments.GetAll();
-                var status = await _unitOfWork.Statuses.GetAll();
-                
+                var deviceAssignments = await _unitOfWork.DeviceAssignments.GetAll();
 
-                var query = from dev in deviceAssignment
-                            join emp in employee on dev.EmployeeAssignID equals emp.EmployeeID
-                            join emps in employee on dev.EmployeeReceiveID equals emps.EmployeeID
-                            join propim in propertyImport on dev.PropImportID equals propim.PropImportID
-                            join dep in department on dev.DeptID equals dep.DeptID
-                            join sta in status on dev.StatusID equals sta.StatusID
-                            select new DeviceAssignmentResponse
-                            {
-                                Id = dev.Id,
-                                DeviceAssignmentID = dev.DeviceAssignmentID,
-                                AssignAt = dev.AssignAt,
-                                EmployeeAssignID = dev.EmployeeAssignID,
-                                PropImportID = dev.PropImportID,
-                                EmployeeReceiveID = dev.EmployeeReceiveID,
-                                DeptID = dev.DeptID,
-                                StatusID = dev.StatusID,
-                                AssignEnd = dev.AssignEnd,
-                                ProposeAt = dev.ProposeAt,
-                                ProposeContent = dev.ProposeContent,
-                                ProposeStatus = dev.ProposeStatus,
-                                Note = dev.Note,
-                            };
+                var query = deviceAssignments.Select(dev => new DeviceAssignmentResponse
+                {
+                    Id = dev.Id,
+                    DeviceAssignmentID = dev.DeviceAssignmentID,
+                    AssignAt = dev.AssignAt,
+                    EmployeeAssignID = dev.EmployeeAssignID, 
+                    EmployeeReceiveID = dev.EmployeeReceiveID, 
+                    PropImportID = dev.PropImportID, 
+                    DeptID = dev.DeptID, 
+                    StatusID = dev.StatusID, 
+                    AssignEnd = dev.AssignEnd,
+                    ProposeAt = dev.ProposeAt,
+                    ProposeContent = dev.ProposeContent,
+                    ProposeStatus = dev.ProposeStatus,
+                    Note = dev.Note,
+                });
+
                 return query.ToList();
             }
             catch (Exception ex)
@@ -141,34 +132,61 @@ namespace VLFM.Services
             return null;
         }
 
-        public async Task<bool> UpdateDeviceAssignment(DeviceAssignmentDetails deviceAssignmentDetails)
+        public async Task<bool> UpdateAssignEnd(AssignEndUpdateDTO assignEndDTO)
         {
-            if (deviceAssignmentDetails != null)
+            var deviceAssignment = await _unitOfWork.DeviceAssignments.GetById(assignEndDTO.Id);
+            if (deviceAssignment == null)
             {
-                var deviceAssignment = await _unitOfWork.DeviceAssignments.GetById(deviceAssignmentDetails.Id);
-                if (deviceAssignment != null)
-                {
-                    deviceAssignment.AssignAt = deviceAssignmentDetails.AssignAt;
-                    deviceAssignment.EmployeeAssignID = deviceAssignmentDetails.EmployeeAssignID;
-                    deviceAssignment.PropImportID = deviceAssignmentDetails.PropImportID;
-                    deviceAssignment.EmployeeReceiveID = deviceAssignmentDetails.EmployeeReceiveID;
-                    deviceAssignment.StatusID = deviceAssignmentDetails.StatusID;
-                    deviceAssignment.DeptID = deviceAssignmentDetails.DeptID;
-                    deviceAssignment.AssignEnd = deviceAssignmentDetails.AssignEnd;
-                    deviceAssignment.ProposeAt = deviceAssignmentDetails.ProposeAt;
-                    deviceAssignment.ProposeContent = deviceAssignmentDetails.ProposeContent;
-                    deviceAssignment.ProposeStatus = deviceAssignmentDetails.ProposeStatus;
-                    deviceAssignment.Note = deviceAssignmentDetails.Note;
-                    _unitOfWork.DeviceAssignments.Update(deviceAssignment);
-                    var result = _unitOfWork.Save();
+                return false;
+            }
 
-                    if (result > 0)
-                        return true;
-                    else
-                        return false;
+            deviceAssignment.AssignEnd = assignEndDTO.AssignEnd ?? deviceAssignment.AssignEnd;
+
+            _unitOfWork.DeviceAssignments.Update(deviceAssignment);
+            var result = _unitOfWork.Save();
+
+            if (result > 0)
+                return true;
+            else
+                return false;
+        }
+
+        public async Task<bool> UpdateDeviceAssignment(DeviceAssignmentUpdateDTO updateDTO)
+        {
+            var deviceAssignment = await _unitOfWork.DeviceAssignments.GetById(updateDTO.Id);
+           
+            if (deviceAssignment == null)   
+            {
+                return false;
+            }
+
+            deviceAssignment.AssignAt = updateDTO.AssignAt ?? deviceAssignment.AssignAt;
+            deviceAssignment.EmployeeAssignID = updateDTO.EmployeeAssignID ?? deviceAssignment.EmployeeAssignID;
+            deviceAssignment.PropImportID = updateDTO.PropImportID ?? deviceAssignment.PropImportID;
+            deviceAssignment.StatusID = updateDTO.StatusID ?? deviceAssignment.StatusID;
+            deviceAssignment.AssignEnd = updateDTO.AssignEnd ?? deviceAssignment.AssignEnd;
+            deviceAssignment.ProposeContent = updateDTO.ProposeContent ?? deviceAssignment.ProposeContent;
+            deviceAssignment.ProposeStatus = updateDTO.ProposeStatus ?? deviceAssignment.ProposeStatus;
+            if (deviceAssignment.ProposeStatus == 1)
+            {
+                var propertyImport = await _unitOfWork.PropertyImports.GetAll();
+                var updateStatus = propertyImport
+                        .Where(p => p.PropImportID == deviceAssignment.PropImportID)
+                        .FirstOrDefault();
+                if (updateStatus != null)
+                {
+                    updateStatus.StatusID = 0;
+                    _unitOfWork.PropertyImports.Update(updateStatus);
                 }
             }
-            return false;
+            _unitOfWork.DeviceAssignments.Update(deviceAssignment);
+            var result = _unitOfWork.Save();
+
+
+            if (result > 0)
+                return true;
+            else
+                return false;
         }
     }
 }

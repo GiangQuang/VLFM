@@ -1,5 +1,6 @@
 import type { ProColumns } from '@ant-design/pro-components';
 import { TableListItem } from '../data';
+import { getAllproperty, getAllreceipt } from '../service';
 export const column: ProColumns<TableListItem>[] = [
   {
 
@@ -15,10 +16,18 @@ export const column: ProColumns<TableListItem>[] = [
   {
     title: 'Mã hoá đơn nhập',
     dataIndex: ['receiptID'],
+    
   },
   {
-    title: 'Mã tài sản',
+    title: 'Tên tài sản',
     dataIndex: ['propertyID'],
+    valueType: 'select',
+    request: async () => {
+      const res = await getAllproperty();
+      return res.data.map((item) => {
+        return {label:`${item?.propertyname}`, value: item?.propertyID}
+      });
+    },
   },
   {
     title: 'Số lượng',

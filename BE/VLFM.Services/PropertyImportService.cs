@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using VLFM.Core.DTO;
 using VLFM.Core.Interfaces;
 using VLFM.Core.Models;
 using VLFM.Core.Response;
@@ -19,15 +21,25 @@ namespace VLFM.Services
         }
         public async Task<bool> CreatePropertyImport(PropertyImportDetails propertyImportDetails)
         {
-            if ( propertyImportDetails != null)
+            if (propertyImportDetails != null)
             {
-                await _unitOfWork.PropertyImports.Add(propertyImportDetails);
-                var result = _unitOfWork.Save();
-                if (result > 0)
+                var receiptDetailed = await _unitOfWork.ReceiptsDetailed.GetAll();
+                var getquantity = receiptDetailed
+                                    .Where(r => r.DtReceiptID == propertyImportDetails.DtReceiptID)
+                                    .FirstOrDefault();
+                int quantity = (int)Math.Floor(getquantity.quantity);
+                for (int i = 0; i < quantity; i++)
+                {
+                    await _unitOfWork.PropertyImports.Add(propertyImportDetails);
+                    var result = _unitOfWork.Save();
+                    if (result <= 0)
+                    {
+                        return false;
+                    }
                     return true;
-                else
-                    return false;
+                }
             }
+
             return false;
         }
         public async Task<bool> DeletePropertyImport(List<PropertyImportResponse> propImports)
@@ -47,7 +59,7 @@ namespace VLFM.Services
                 if (result > 0)
                     return true;
                 else
-                    return false;
+                    return false;   
             }
             return false;
         }
@@ -59,12 +71,10 @@ namespace VLFM.Services
                 var propertyImport = await _unitOfWork.PropertyImports.GetAll();
                 var receiptdetailed = await _unitOfWork.ReceiptsDetailed.GetAll();
                 var properties = await _unitOfWork.Properties.GetAll();
-                var status = await _unitOfWork.Statuses.GetAll();
 
                 var query = from propim in propertyImport
                             join drec in receiptdetailed on propim.DtReceiptID equals drec.DtReceiptID
                             join prop in properties on propim.PropertyID equals prop.PropertyID
-                            join sta in status on propim.StatusID equals sta.StatusID
                             select new PropertyImportResponse
                             {
                                 Id = propim.Id,
@@ -90,7 +100,6 @@ namespace VLFM.Services
                 var propertyImports = await _unitOfWork.PropertyImports.GetById(Id);
                 var receiptdetailed = await _unitOfWork.ReceiptsDetailed.GetAll();
                 var properties = await _unitOfWork.Properties.GetAll();
-                var statuses = await _unitOfWork.Statuses.GetAll();
 
                 if (propertyImports != null)
                 {
@@ -98,7 +107,6 @@ namespace VLFM.Services
                     {
                         var dtrececipt = receiptdetailed.FirstOrDefault(drec => drec.DtReceiptID == propertyImports.DtReceiptID);
                         var property = properties.FirstOrDefault(prop => prop.PropertyID == propertyImports.PropertyID);
-                        var status = statuses.FirstOrDefault(sta => sta.StatusID == propertyImports.StatusID);
                         var response = new PropertyImportResponse
                         {
                             Id = propertyImports.Id,

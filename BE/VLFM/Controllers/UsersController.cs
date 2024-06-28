@@ -26,12 +26,11 @@ namespace VLFM.Controllers
 
             if (user != null)
             {
-                var token = _jwtService.GenerateJwtToken(request.Username);
+                var token = _jwtService.GenerateJwtToken(user.Id);
                 return Ok(new {
                     username = user.Username,
                     password = user.Password,
                     token = token,
-                    role = user.Role,
                     status = "ok"
                 });
             }
@@ -42,17 +41,59 @@ namespace VLFM.Controllers
         }
 
         [HttpGet("currentUser")]
-        public async Task<IActionResult> GetCurrentUsers()
+        public async Task<IActionResult> GetCurrentUser()
         {
-            var current = new CurrentUserResponse
+            var token = Request.Headers["Authorization"].FirstOrDefault()?.Split(" ").Last();
+            if (string.IsNullOrEmpty(token))
             {
-                name = "admin",
-                avatar = "https://gw.alipayobjects.com/zos/rmsportal/KDpgvguMpGfqaHPjicRK.svg",
-                email = "quang@gmail.com"
-            };
+                return Unauthorized(new { message = "Token is missing" });
+            }
 
-            return Ok(await Task.FromResult(current));
+            var user = await _userService.GetCurrentUser(token);
+            if (user == null)
+            {
+                return Unauthorized(new { message = "Invalid token or user not found" });
+            } 
+
+            return Ok(user);
         }
+
+        /*[HttpGet("checkAccess")]
+        public async Task<IActionResult> CheckAccess(string url)
+        {
+            var token = Request.Headers["Authorization"].FirstOrDefault()?.Split(" ").Last();
+            if (string.IsNullOrEmpty(token))
+            {
+                return Unauthorized("Missing or invalid token");
+            }
+
+            // Lấy thông tin người dùng từ token
+            var userId = _jwtService.ValidateJwtToken(token);
+            if (userId == null)
+            {
+                return Unauthorized("Invalid token");
+            }
+
+            // Lấy thông tin người dùng từ service
+            var user = await _userService.GetCurrentUser(token);
+            if (user == null)
+            {
+                return Unauthorized("User not found");
+            }
+
+            // Kiểm tra quyền truy cập của người dùng
+            var accessURL = url.ToLower(); // Chuyển đổi URL thành chữ thường
+            if (user.PermissionURL.Contains(accessURL))
+            {
+                // Người dùng có quyền truy cập
+                return Ok("Authorized");
+            }
+            else
+            {
+                // Người dùng không có quyền truy cập
+                return StatusCode(StatusCodes.Status403Forbidden, "Forbidden: Bạn không có quyền truy cập!");
+            }
+        }*/
 
 
         [HttpGet]
@@ -65,7 +106,7 @@ namespace VLFM.Controllers
             }
             string EmployeeID = HttpContext.Request.Query.ContainsKey("EmployeeID") ? HttpContext.Request.Query["EmployeeID"].ToString() : null;
             string Username = HttpContext.Request.Query.ContainsKey("Username") ? HttpContext.Request.Query["Username"].ToString() : null;
-            string Role = HttpContext.Request.Query.ContainsKey("Role") ? HttpContext.Request.Query["Role"].ToString() : null;
+            string RoleId = HttpContext.Request.Query.ContainsKey("RoleId") ? HttpContext.Request.Query["RoleId"].ToString() : null;
             string Status = HttpContext.Request.Query.ContainsKey("Status") ? HttpContext.Request.Query["Status"].ToString() : null;
 
             if (!string.IsNullOrEmpty(EmployeeID))
@@ -76,9 +117,13 @@ namespace VLFM.Controllers
             {
                 userDetailsList = userDetailsList.Where(u => u.Username.Contains(Username, StringComparison.OrdinalIgnoreCase)).ToList();
             }
-            if (!string.IsNullOrEmpty(Role))
+            if (!string.IsNullOrEmpty(RoleId))
             {
-                userDetailsList = userDetailsList.Where(u => u.Role.Contains(Role, StringComparison.OrdinalIgnoreCase)).ToList();
+                int parsedRoleId;
+                if (int.TryParse(RoleId, out parsedRoleId))
+                {
+                    userDetailsList = userDetailsList.Where(u => u.RoleId == parsedRoleId).ToList();
+                }
             }
             if (!string.IsNullOrEmpty(Status))
             {

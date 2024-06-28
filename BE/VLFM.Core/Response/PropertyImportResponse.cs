@@ -17,6 +17,6 @@ namespace VLFM.Core.Response
         public string PropertyID { get; set; }
         public DateTime WarrantydayAt { get; set; }
         public DateTime WarrantydayEnd { get; set; }
-        public string StatusID { get; set; }
+        public int StatusID { get; set; }
     }
 }

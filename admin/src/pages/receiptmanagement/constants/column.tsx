@@ -1,5 +1,6 @@
 import type { ProColumns } from '@ant-design/pro-components';
 import { TableListItem } from '../data';
+import { getAllemployee, getAllprovider } from '../service';
 export const column: ProColumns<TableListItem>[] = [
   {
 
@@ -19,10 +20,24 @@ export const column: ProColumns<TableListItem>[] = [
   {
     title: 'Mã nhân viên',
     dataIndex: ['employeeID'],
+    valueType: 'select',
+    request: async () => {
+      const res = await getAllemployee();
+      return res.data.map((item) => {
+        return {label:`${item?.employeename} `, value: item?.employeeID}
+      });
+    },
   },
   {
     title: 'Mã nhà cung cấp',
     dataIndex: ['providerID'],
+    valueType: 'select',
+    request: async () => {
+      const res = await getAllprovider();
+      return res.data.map((item) => {
+        return {label:`${item?.providername} `, value: item?.providerID}
+      });
+    },
   },
   {
     title: 'Số hoá đơn',

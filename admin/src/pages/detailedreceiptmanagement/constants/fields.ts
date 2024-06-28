@@ -1,9 +1,7 @@
-import { request } from "@umijs/max";
-import { getAllproperty, getAllpropose, getAllreceipt, getAllstatus } from "../service";
+import { getAllproperty, getAllreceipt } from '../service';
 
 export const fields = (id, form) => [
   {
-
     valueType: 'group',
     columns: [
       {
@@ -16,32 +14,39 @@ export const fields = (id, form) => [
         },
       },
       {
-        title: 'Mã hoá đơn nhập',
+        title: 'Mã hoá đơn nhập - số hoá đơn',
+        showSearch: true,
         dataIndex: ['receiptID'],
-        type: 'select',
         colProps: {
           xs: 24,
           md: 6,
         },
+        // fieldProps:{
+        //   mode: 'search',
+        // },
+        valueType: 'select',
         request: async () => {
           const res = await getAllreceipt();
           return res.data.map((item) => {
-            return {label:`${item?.receiptID}`, value: item?.receiptID}
+            return { label: `${item?.receiptID} - ${item?.receiptcode}`, value: item?.receiptID };
           });
         },
       },
       {
-        title: 'Mã tài sản',
+        title: 'Tên tài sản',
         dataIndex: ['propertyID'],
         type: 'select',
         colProps: {
           xs: 24,
-          md: 6,
+          md: 10,
         },
         request: async () => {
           const res = await getAllproperty();
           return res.data.map((item) => {
-            return {label:`${item?.propertyID} - ${item?.propertyname} `, value: item?.propertyID}
+            return {
+              label: `${item?.propertyname}`,
+              value: item?.propertyID,
+            };
           });
         },
       },

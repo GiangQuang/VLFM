@@ -6,6 +6,7 @@ import type { TableListItem } from '../data';
 import { Form, Skeleton } from 'antd';
 import { getById } from '../service';
 import { fields } from '../constants/fields';
+import { useModel } from '@umijs/max';
 
 
 export type FormValueType = {
@@ -27,6 +28,9 @@ export type AddEditFormProps = {
 };
 
 const AddEditForm: React.FC<AddEditFormProps> = (props) => {
+  const { initialState } = useModel('@@initialState');
+  const { currentUser } = initialState || {};
+  console.log("🚀 ~ currentUser:", currentUser)
   const [form] = Form.useForm();
   const [loading, setLoading] = useState(false)
 
@@ -56,12 +60,19 @@ const AddEditForm: React.FC<AddEditFormProps> = (props) => {
       type: props.type,
       ...props.params
     }}
+    
     title={props.selectedId ? `Cập nhật` : 'Thêm mới'}
-    columns={fields(props.selectedId,form)
+    columns={fields(props.selectedId,form,"",currentUser)
     } // JSON Schema tên là columns. Giúp định dạng các thuộc tính của Form
     grid
     onFinish={props.onFinish}
     form={form}
+
+    submitter={{
+      searchConfig: {
+        resetText: 'Reset',
+        submitText: 'Lưu lại',
+      },}}
   />
 
   );

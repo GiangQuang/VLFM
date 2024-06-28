@@ -1,14 +1,15 @@
-import { AvatarDropdown, AvatarName, Footer, Question, SelectLang } from '@/components';
-import { LinkOutlined } from '@ant-design/icons';
+import { AvatarDropdown, AvatarName } from '@/components';
 import type { Settings as LayoutSettings } from '@ant-design/pro-components';
 import { SettingDrawer } from '@ant-design/pro-components';
 import type { RequestConfig, RunTimeLayoutConfig } from '@umijs/max';
-import { history, Link } from '@umijs/max';
+import { history } from '@umijs/max';
+import Cookies from 'js-cookie';
 import defaultSettings from '../config/defaultSettings';
+import routes from '../config/routes';
 import { errorConfig } from './requestErrorConfig';
 import { currentUser as queryCurrentUser } from './services/ant-design-pro/api';
 const isDev = process.env.NODE_ENV === 'development';
-const loginPath = '/user/login';
+const loginPath = '/';
 
 /**
  * @see  https://umijs.org/zh-CN/plugins/plugin-initial-state
@@ -24,6 +25,8 @@ export async function getInitialState(): Promise<{
       const msg = await queryCurrentUser({
         skipErrorHandler: true,
       });
+      Cookies.set('permission_url', msg?.permissionURL);
+
       return msg;
     } catch (error) {
       history.push(loginPath);
@@ -48,8 +51,13 @@ export async function getInitialState(): Promise<{
 
 // ProLayout 支持的api https://procomponents.ant.design/components/layout
 export const layout: RunTimeLayoutConfig = ({ initialState, setInitialState }) => {
+  const permission_url = Cookies.get('permission_url');
+  const routesHasPermission = routes.filter((route) => {
+    if(permission_url?.includes(`${route?.path}_view`)){
+      return route
+    }
+  });
   return {
-    // actionsRender: () => [<Question key="doc" />, <SelectLang key="SelectLang" />],
     avatarProps: {
       src: initialState?.currentUser?.avatar,
       title: <AvatarName />,
@@ -97,6 +105,7 @@ export const layout: RunTimeLayoutConfig = ({ initialState, setInitialState }) =
     //     ]
     //   : [],
     menuHeaderRender: undefined,
+    menuDataRender: ()=>routesHasPermission,
     // 自定义 403 页面
     // unAccessible: <div>unAccessible</div>,
     // 增加一个 loading 的状态

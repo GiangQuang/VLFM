@@ -191,7 +191,9 @@ export async function importOne(data: { [key: string]: any }, options?: { [key: 
 export async function getById(id: string): Promise<{ data: [] }> {
   return request(`api/propertyimport/${id}`);
 }
-
+export async function getdetailedreceiptById(id:any): Promise<{ data: [] }> {
+  return request(`api/detailedreceipt/${id}`);
+}
 // export async function getHistory(id: string): Promise<{ data: [] }> {
 //   return request(`/api/lead-admin/history/${id}`);
 // }

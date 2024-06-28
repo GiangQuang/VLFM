@@ -17,7 +17,7 @@ const Settings: ProLayoutProps & {
   colorWeak: false,
   title: 'Văn Lang University',
   pwa: true,
-  logo: 'https://jmp.sh/s/DmqiDvpNmQY9GoEh1EQe',
+  logo: 'https://insacmau.com/wp-content/uploads/2023/02/logo-van-lang-896x1024.png',
   iconfontUrl: '',
   token: {
     // 参见ts声明，demo 见文档，通过token 修改样式

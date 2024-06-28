@@ -22,6 +22,39 @@ namespace VLFM.Infrastructure.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
 
+            modelBuilder.Entity("VLFM.Core.Models.AccessDetails", b =>
+                {
+                    b.Property<int>("AccessId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("AccessId"), 1L, 1);
+
+                    b.Property<string>("AccessURL")
+                        .IsRequired()
+                        .HasMaxLength(300)
+                        .HasColumnType("nvarchar(300)");
+
+                    b.Property<int>("PermissionId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("PermissionURL")
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.Property<string>("Permissionsymbol")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.Property<int>("RoleId")
+                        .HasColumnType("int");
+
+                    b.HasKey("AccessId");
+
+                    b.ToTable("Accesses");
+                });
+
             modelBuilder.Entity("VLFM.Core.Models.BranchDetails", b =>
                 {
                     b.Property<int>("Id")
@@ -129,8 +162,8 @@ namespace VLFM.Infrastructure.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
-                    b.Property<DateTime>("AssignAt")
-                        .HasColumnType("date");
+                    b.Property<DateTime?>("AssignAt")
+                        .HasColumnType("datetime2");
 
                     b.Property<DateTime?>("AssignEnd")
                         .HasColumnType("datetime2");
@@ -146,7 +179,6 @@ namespace VLFM.Infrastructure.Migrations
                         .HasColumnType("nvarchar(14)");
 
                     b.Property<string>("EmployeeAssignID")
-                        .IsRequired()
                         .HasMaxLength(14)
                         .HasColumnType("nvarchar(14)");
 
@@ -174,13 +206,50 @@ namespace VLFM.Infrastructure.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("StatusID")
-                        .IsRequired()
                         .HasMaxLength(14)
                         .HasColumnType("nvarchar(14)");
 
                     b.HasKey("Id");
 
                     b.ToTable("DeviceAssignments");
+                });
+
+            modelBuilder.Entity("VLFM.Core.Models.DeviceReturnDetails", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<string>("DeviceAssignmentID")
+                        .IsRequired()
+                        .HasMaxLength(14)
+                        .HasColumnType("nvarchar(14)");
+
+                    b.Property<string>("DeviceReturnID")
+                        .IsRequired()
+                        .HasMaxLength(14)
+                        .HasColumnType("nvarchar(14)");
+
+                    b.Property<string>("EmployeeReturnID")
+                        .IsRequired()
+                        .HasMaxLength(14)
+                        .HasColumnType("nvarchar(14)");
+
+                    b.Property<string>("Note")
+                        .HasMaxLength(300)
+                        .HasColumnType("nvarchar(300)");
+
+                    b.Property<DateTime>("ReturnAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("StatusID")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("DeviceReturns");
                 });
 
             modelBuilder.Entity("VLFM.Core.Models.EmployeeDetails", b =>
@@ -220,6 +289,29 @@ namespace VLFM.Infrastructure.Migrations
                     b.HasKey("IDNV");
 
                     b.ToTable("Employees");
+                });
+
+            modelBuilder.Entity("VLFM.Core.Models.PermissionDetails", b =>
+                {
+                    b.Property<int>("PermissionId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("PermissionId"), 1L, 1);
+
+                    b.Property<string>("Permissionname")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.Property<string>("Permissionsymbol")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.HasKey("PermissionId");
+
+                    b.ToTable("Permissions");
                 });
 
             modelBuilder.Entity("VLFM.Core.Models.PropertyDetails", b =>
@@ -287,10 +379,8 @@ namespace VLFM.Infrastructure.Migrations
                         .HasMaxLength(14)
                         .HasColumnType("nvarchar(14)");
 
-                    b.Property<string>("StatusID")
-                        .IsRequired()
-                        .HasMaxLength(14)
-                        .HasColumnType("nvarchar(14)");
+                    b.Property<int>("StatusID")
+                        .HasColumnType("int");
 
                     b.Property<DateTime>("WarrantydayAt")
                         .HasColumnType("datetime2");
@@ -429,6 +519,24 @@ namespace VLFM.Infrastructure.Migrations
                     b.ToTable("Receipts");
                 });
 
+            modelBuilder.Entity("VLFM.Core.Models.RoleDetails", b =>
+                {
+                    b.Property<int>("RoleId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("RoleId"), 1L, 1);
+
+                    b.Property<string>("Rolename")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.HasKey("RoleId");
+
+                    b.ToTable("Roles");
+                });
+
             modelBuilder.Entity("VLFM.Core.Models.StatusDetails", b =>
                 {
                     b.Property<int>("Id")
@@ -474,10 +582,8 @@ namespace VLFM.Infrastructure.Migrations
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
 
-                    b.Property<string>("Role")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
+                    b.Property<int>("RoleId")
+                        .HasColumnType("int");
 
                     b.Property<int>("Status")
                         .HasColumnType("int");

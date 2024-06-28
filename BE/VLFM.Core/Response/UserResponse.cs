@@ -15,7 +15,10 @@ namespace VLFM.Core.Response
         public string EmployeeID { get; set; }
         public string Username { get; set; }
         public string Password { get; set; }
-        public string Role { get; set; }
+        public int RoleId { get; set; }
+        public string Rolename { get; set; }
+        public string name { get; set; }
+        public string[] PermissionURL { get; set; }
         public int Status { get; set; }
     }
 }

@@ -23,8 +23,11 @@ namespace VLFM.Infrastructure.Repositories
         public IReceiptRepository Receipts { get; }
         public IDetailedReceiptRepository ReceiptsDetailed { get; }
         public IPropertyImportRepository PropertyImports { get; }
-
         public IDeviceAssignmentRepository DeviceAssignments { get; }
+        public IDeviceReturnRepository DeviceReturns { get; }
+        public IRoleRepository Roles { get; }
+        public IPermissionRepository Permissions {  get; }
+        public IAccessRepository Accesses {  get; }
 
         public UnitOfWork(DataContext dataContext, 
             IUserRepository userRepository,
@@ -39,7 +42,11 @@ namespace VLFM.Infrastructure.Repositories
             IReceiptRepository receiptRepository,
             IDetailedReceiptRepository detailedReceiptRepository,
             IPropertyImportRepository propertyImportRepository,
-            IDeviceAssignmentRepository deviceAssignmentRepository)
+            IDeviceAssignmentRepository deviceAssignmentRepository,
+            IDeviceReturnRepository devicereturnRepository,
+            IRoleRepository roleRepository,
+            IPermissionRepository permissionRepository,
+            IAccessRepository accessRepository)
         {
             _dataContext = dataContext;
             Users = userRepository;
@@ -55,6 +62,10 @@ namespace VLFM.Infrastructure.Repositories
             ReceiptsDetailed = detailedReceiptRepository;
             PropertyImports = propertyImportRepository;
             DeviceAssignments = deviceAssignmentRepository;
+            DeviceReturns = devicereturnRepository;
+            Roles = roleRepository;
+            Permissions = permissionRepository;
+            Accesses = accessRepository;
         }
         public int Save()
         {

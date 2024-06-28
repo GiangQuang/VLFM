@@ -8,6 +8,7 @@ import routes from './routes';
 
 const { REACT_APP_ENV = 'dev' } = process.env;
 
+
 export default defineConfig({
   /**
    * @name 开启 hash 模式
@@ -77,7 +78,7 @@ export default defineConfig({
    * @name layout 插件
    * @doc https://umijs.org/docs/max/layout-menu
    */
-  title: 'Ant Design Pro',
+  title: 'VLU',
   layout: {
     locale: true,
     ...defaultSettings,
@@ -96,10 +97,8 @@ export default defineConfig({
    * @doc https://umijs.org/docs/max/i18n
    */
   locale: {
-    // default zh-CN
-    default: 'zh-CN',
+    default: 'vi-VN',
     antd: true,
-    // default true, when it is true, will use `navigator.language` overwrite default
     baseNavigator: true,
   },
   /**

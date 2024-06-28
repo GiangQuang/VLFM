@@ -9,7 +9,8 @@ namespace VLFM.Services.Interfaces
 {
     public interface IJwtService
     {
-        string GenerateJwtToken(string Username);
+        string GenerateJwtToken(int Id);
+        int? ValidateJwtToken(string token);
     }
 
 }

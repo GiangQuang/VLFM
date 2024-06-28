@@ -17,23 +17,17 @@ namespace VLFM.Core.Models
         [Required]
         [StringLength(14)]
         public string DeviceAssignmentID { get; set; } = DateTime.Now.ToString("yyyyMMddHHmmss");
-        [Required]
-        [Column(TypeName = "date")]
-        public DateTime AssignAt{ get; set; }
-        [Required]
+        public DateTime? AssignAt { get; set; }
         [StringLength(14)]
-        public string EmployeeAssignID { get; set; }
+        public string? EmployeeAssignID { get; set; }
         [StringLength(44)]
         public string? PropImportID { get; set; }
-        [Required]
         [StringLength(14)]
         public string EmployeeReceiveID { get; set; }
-        [Required]
         [StringLength(14)]
         public string DeptID { get; set; }
-        [Required]
         [StringLength(14)]
-        public string StatusID { get; set; }
+        public string? StatusID { get; set; }
         public DateTime? AssignEnd { get; set; } 
         public DateTime? ProposeAt { get; set; } 
         [StringLength(300)]

@@ -8,12 +8,13 @@ using VLFM.Infrastructure;
 using VLFM.Infrastructure.ServiceExtension;
 using VLFM.Services;
 using VLFM.Services.Interfaces;
+using VLFM.Services.Middleware;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddDbContext<DataContext>(options => options.UseSqlServer(
-    "Server=MSI;Database=facilitiesdb;User Id=sa;Password=12345;Persist Security Info=True"));
+    "Server=MSI;Database=vlfmdb;User Id=sa;Password=12345;Persist Security Info=True"));
 builder.Services.AddDIServices();
 builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<IEmployeeService, EmployeeService>();
@@ -28,6 +29,11 @@ builder.Services.AddScoped<IReceiptService, ReceiptService>();
 builder.Services.AddScoped<IDetailedReceiptService, DetailedReceiptService>();
 builder.Services.AddScoped<IPropertyImportService, PropertyImportService>();
 builder.Services.AddScoped<IDeviceAssignmentService, DeviceAssignmentService>();
+builder.Services.AddScoped<IDeviceReturnService, DeviceReturnService>();
+builder.Services.AddScoped<IRoleService, RoleService>();
+builder.Services.AddScoped<IPermissionService, PermissionService>();
+builder.Services.AddScoped<IAccessService, AccessService>();
+builder.Services.AddScoped<IStatisticService, StatisticService>();
 builder.Services.AddScoped<IJwtService, JwtService>();
 builder.Services.AddScoped<IPasswordService, PasswordService>();
 builder.Services.AddControllers();
@@ -45,11 +51,17 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
+/*app.UseWhen(context => context.Request.Path.StartsWithSegments("/api/user/currentUser"), app =>
+{
+    app.UseMiddleware<AuthorizationMiddleware>();
+});*/   
+
 app.UseCors(builder => builder
 .AllowAnyHeader()
 .AllowAnyMethod()
 .SetIsOriginAllowed((host) => true)
 .AllowCredentials());
+
 
 app.UseHttpsRedirection();
 

@@ -11,11 +11,11 @@
  * @doc https://umijs.org/docs/guides/routes
  */
 
-export default [
+const routes = [
   {
     path: '/',
     layout: false,
-    
+
     routes: [
       {
         path: '/',
@@ -27,88 +27,21 @@ export default [
         path: '/',
         redirect: '/',
       },
-      // {
-      //   name: 'register-result',
-      //   icon: 'smile',
-      //   path: '/user/register-result',
-      //   component: './user/register-result',
-      // },
-      // {
-      //   name: 'register',
-      //   icon: 'smile',
-      //   path: '/user/register',
-      //   component: './user/register',
-      // },
       {
         component: '404',
         path: '/user/*',
       },
     ],
   },
-  // {
-  //   path: '/dashboard',
-  //   name: 'dashboard1',
-  //   icon: 'dashboard',
-  //   routes: [
-  //     {
-  //       path: '/dashboard',
-  //       redirect: '/dashboard/analysis',
-  //     },
-  //     {
-  //       name: 'analysis',
-  //       icon: 'smile',
-  //       path: '/dashboard/analysis1',
-  //       component: './dashboard/analysis',
-  //     },
-  //     {
-  //       name: 'employee',
-  //       icon: 'smile',
-  //       path: '/dashboard/employee',
-  //       component: './dashboard/monitor',
-  //     },
-  //     {
-  //       name: 'workplace',
-  //       icon: 'smile',
-  //       path: '/dashboard/workplace',
-  //       component: './dashboard/workplace',
-  //     },
-  //   ],
-  // },
-  // {
-  //   path: '/form',
-  //   icon: 'form',
-  //   name: 'form',
-  //   routes: [
-  //     {
-  //       path: '/form',
-  //       redirect: '/form/basic-form',
-  //     },
-  //     {
-  //       name: 'basic-form',
-  //       icon: 'smile',
-  //       path: '/form/basic-form',
-  //       component: './form/basic-form',
-  //     },
-  //     {
-  //       name: 'step-form',
-  //       icon: 'smile',
-  //       path: '/form/step-form',
-  //       component: './form/step-form',
-  //     },
-  //     {
-  //       name: 'advanced-form',
-  //       icon: 'smile',
-  //       path: '/form/advanced-form',
-  //       component: './form/advanced-form',
-  //     },
-  //   ],
-  // },
+  {
+    path: '/dashboard',
+    name: 'Dashboard',
+    component: './dashboard/analysis',
+  },
   {
     path: '/category',
-    icon: 'profile',
     name: 'Quản lý danh mục',
     routes: [
-
       //Quản lý nhân viên
       {
         path: '/category/employee/',
@@ -127,7 +60,7 @@ export default [
         hideInMenu: true,
         component: './employeemanagement/addEdit.tsx',
       },
-      
+
       //Quản lý tài khoản
       {
         name: 'Quản lý tài khoản',
@@ -147,7 +80,7 @@ export default [
         component: './usermanagement/addEdit.tsx',
       },
 
-      //Quản lý nhân viên
+      //Quản lý cơ sở
       {
         name: 'Quản lý cơ sở',
         path: '/category/branch',
@@ -264,9 +197,8 @@ export default [
   {
     path: '/storage',
     name: 'Quản lý nhập kho',
-    icon: 'table',
+    // icon: 'table',
     routes: [
-
       //Quản lý nhà cung cấp
       {
         name: 'Quản lý nhà cung cấp',
@@ -346,10 +278,9 @@ export default [
   },
   {
     path: '/device',
-    name: 'Quản lý thiết bị',
-    icon: 'DesktopOutlined',
+    name: 'Quản lý cấp trả tài sản',
+    // icon: 'DesktopOutlined',
     routes: [
-
       //Quản lý cấp phát thiết bị
       {
         name: 'Quản lý cấp phát thiết bị',
@@ -368,66 +299,128 @@ export default [
         hideInMenu: true,
         component: './deviceassignmentmanagement/addEdit.tsx',
       },
+
+      //Danh sách đã được cấp thiết bị
+      {
+        name: 'Danh sách đã được cấp thiết bị',
+        path: '/device/deviceusing',
+        component: './deviceassignaccepted/',
+      },
+      {
+        name: 'Thêm phiếu cấp thiết bị',
+        path: '/device/deviceusing/add',
+        hideInMenu: true,
+        component: './deviceassignaccepted/addEdit.tsx',
+      },
+      {
+        name: 'Cập nhật phiếu cấp thiết bị',
+        path: '/device/deviceusing/update/:id',
+        hideInMenu: true,
+        component: './deviceassignaccepted/addEdit.tsx',
+      },
+
+      //Danh sách bị từ chối
+      {
+        name: 'Danh sách phiếu bị từ chối cấp thiết bị',
+        path: '/device/devicedenied',
+        component: './deviceassigndenied/',
+      },
+      {
+        name: 'Thêm phiếu cấp thiết bị',
+        path: '/device/devicedenied/add',
+        hideInMenu: true,
+        component: './deviceassigndenied/addEdit.tsx',
+      },
+      {
+        name: 'Cập nhật phiếu cấp thiết bị',
+        path: '/device/devicedenied/update/:id',
+        hideInMenu: true,
+        component: './deviceassigndenied/addEdit.tsx',
+      },
+
+      //Quản lý trả thiết bị
+      {
+        name: 'Danh sách trả thiết bị',
+        path: '/device/return',
+        component: './devicereturnmanagement/',
+      },
+      {
+        name: 'Thêm phiếu trả thiết bị',
+        path: '/device/return/add',
+        hideInMenu: true,
+        component: './devicereturnmanagement/addEdit.tsx',
+      },
+      {
+        name: 'Cập nhật phiếu trả thiết bị',
+        path: '/device/return/update/:id',
+        hideInMenu: true,
+        component: './devicereturnmanagement/addEdit.tsx',
+      },
     ],
   },
-  // {
-  //   name: 'exception',
-  //   icon: 'warning',
-  //   path: '/exception',
-  //   routes: [
-  //     {
-  //       path: '/exception',
-  //       redirect: '/exception/403',
-  //     },
-  //     {
-  //       name: '403',
-  //       icon: 'smile',
-  //       path: '/exception/403',
-  //       component: './exception/403',
-  //     },
-  //     {
-  //       name: '404',
-  //       icon: 'smile',
-  //       path: '/exception/404',
-  //       component: './exception/404',
-  //     },
-  //     {
-  //       name: '500',
-  //       icon: 'smile',
-  //       path: '/exception/500',
-  //       component: './exception/500',
-  //     },
-  //   ],
-  // },
-  // // {
-  // //   name: 'account',
-  // //   icon: 'user',
-  // //   path: '/account',
-  // //   routes: [
-  // //     {
-  // //       path: '/account',
-  // //       redirect: '/account/center',
-  // //     },
-  // //     {
-  // //       name: 'center',
-  // //       icon: 'smile',
-  // //       path: '/account/center',
-  // //       component: './account/center',
-  // //     },
-  // //     {
-  // //       name: 'settings',
-  // //       icon: 'smile',
-  // //       path: '/account/settings',
-  // //       component: './account/settings',
-  // //     },
-  // //   ],
-  // // },
-  // {
-  //   path: '/',
-  //   redirect: '/dashboard/analysis',
-  // },
-  // {
-  //   component: '404',
-  //   path: '/*',
-  // },
+
+  {
+    path: '/authorization',
+    name: 'Quản lý phân quyền',
+    // icon: 'TeamOutlined',
+    routes: [
+      //Quản lý role
+      {
+        name: 'Quản lý quyền',
+        path: '/authorization/role',
+        component: './authorizationmanagement/rolemanagement/',
+      },
+      {
+        name: 'Thêm quyền',
+        path: '/authorization/role/add',
+        hideInMenu: true,
+        component: './authorizationmanagement/rolemanagement/addEdit.tsx',
+      },
+      {
+        name: 'Cập nhật quyền',
+        path: '/authorization/role/update/:id',
+        hideInMenu: true,
+        component: './authorizationmanagement/rolemanagement/addEdit.tsx',
+      },
+
+      //Quản lý truy cập
+      {
+        name: 'Quản lý truy cập',
+        path: '/authorization/permission',
+        component: './authorizationmanagement/permissionmanagement/',
+      },
+      {
+        name: 'Thêm truy cập',
+        path: '/authorization/permission/add',
+        hideInMenu: true,
+        component: './authorizationmanagement/permissionmanagement/addEdit.tsx',
+      },
+      {
+        name: 'Cập nhật truy cập',
+        path: '/authorization/permission/update/:id',
+        hideInMenu: true,
+        component: './authorizationmanagement/permissionmanagement/addEdit.tsx',
+      },
+
+      //Quản lý đường dẫn
+      {
+        name: 'Quản lý đường dẫn',
+        path: '/authorization/access',
+        component: './authorizationmanagement/accessmanagement/',
+      },
+      {
+        name: 'Thêm đường dẫn',
+        path: '/authorization/access/add',
+        hideInMenu: true,
+        component: './authorizationmanagement/accessmanagement/addEdit.tsx',
+      },
+      {
+        name: 'Cập nhật đường dẫn',
+        path: '/authorization/access/update/:id',
+        hideInMenu: true,
+        component: './authorizationmanagement/accessmanagement/addEdit.tsx',
+      },
+    ],
+  },
 ];
+export default routes;

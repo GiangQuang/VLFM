@@ -16,6 +16,6 @@ namespace VLFM.Core.Response
         public string EmployeeID { get; set; }
         public string ProviderID { get; set; }
         public string Receiptcode { get; set; }
-        public string Note { get; set; }
+        public string? Note { get; set; }
     }
 }

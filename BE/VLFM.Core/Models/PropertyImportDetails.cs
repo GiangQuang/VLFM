@@ -27,9 +27,8 @@ namespace VLFM.Core.Models
         public DateTime WarrantydayAt { get; set; }
         [Required]
         public DateTime WarrantydayEnd { get; set; }
-        [DefaultValue(20240528205853)]
-        [StringLength(14)]
-        public string StatusID { get; set; }
+        [DefaultValue(2)]
+        public int StatusID { get; set; }
 
         public PropertyImportDetails(string dtReceiptID, string propertyID)
         {

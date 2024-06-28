@@ -1,14 +1,16 @@
-import { request } from "@umijs/max";
 import { getAlldepartment, getAllemployee, getAllpropertyimport, getAllstatus } from "../service";
+import Cookies from "js-cookie";
+import { getAllproperty } from "@/pages/detailedreceiptmanagement/service";
+const permission_url = Cookies.get('permission_url');
 
-export const fields = (id, form) => [
+export const fields = (id, form, employeeID, CurrentUser) => [
   {
 
     valueType: 'group',
     columns: [
       {
         hideInForm: true,
-        title: 'Mã dự phòng',
+        title: 'Mã phiếu cấp',
         dataIndex: 'deviceAssignmentID',
         colProps: {
           xs: 24,
@@ -16,6 +18,7 @@ export const fields = (id, form) => [
         },
       },
       {
+        hideInForm: !permission_url?.includes('/assignment/view_view'),
         title: 'Ngày cấp',
         dataIndex: 'assignAt',
         valueType: 'date',
@@ -25,6 +28,10 @@ export const fields = (id, form) => [
         },
       },
       {
+        hideInForm: !permission_url?.includes('/assignment/view_view'),
+        fieldProps: {
+          disabled: true,
+        },
         title: 'Nhân viên cấp',
         dataIndex: ['employeeAssignID'],
         type: 'select',
@@ -35,26 +42,37 @@ export const fields = (id, form) => [
         request: async () => {
           const res = await getAllemployee();
           return res.data.map((item) => {
+            form.setFieldValue(['employeeAssignID'] ,CurrentUser?.employeeID);
             return {label:`${item?.employeeID} - ${item?.employeename}`, value: item?.employeeID}
           });
         },
       },
       {
-        title: 'Mã tài sản nhập',
+        hideInForm: !permission_url?.includes('/assignment/view_view'),
+        title: 'Tên thiết bị',
         dataIndex: ['propImportID'],
         type: 'select',
         colProps: {
           xs: 24,
-          md: 8,
+          md: 10,
         },
         request: async () => {
           const res = await getAllpropertyimport();
-          return res.data.map((item) => {
-            return {label:`${item?.propImportID}`, value: item?.propImportID}
+    
+          const PropertyData = await getAllproperty();
+    
+          const data = res.data.map((item) => {
+            const property = PropertyData.data.find((property) => property.propertyID === item.propertyID);
+            return {label: `(${property?.propertyname}) ${item?.propImportID} `, value: item?.propImportID};
           });
+    
+          return data;
         },
       },
       {
+        fieldProps: {
+          disabled: !(CurrentUser?.rolename?.toUpperCase() == 'ADMIN' || CurrentUser?.rolename?.toUpperCase() == 'NHÂN VIÊN QUẢN TRỊ'),
+        },
         title: 'Nhân viên được cấp',
         dataIndex: ['employeeReceiveID'],
         type: 'select',
@@ -64,11 +82,14 @@ export const fields = (id, form) => [
         },
         request: async () => {
           const res = await getAllemployee();
+          form.setFieldValue(['employeeReceiveID'] ,CurrentUser?.employeeID);
+
           return res.data.map((item) => {
             return {label:`${item?.employeeID} - ${item?.employeename}`, value: item?.employeeID}
           });
         },
       },
+        
       {
         title: 'Tên bộ phận',
         dataIndex: ['deptID'],
@@ -85,9 +106,10 @@ export const fields = (id, form) => [
         },
       },
       {
+        hideInForm: !permission_url?.includes('/assignment/view_view'),
         title: 'Trạng thái lúc cấp',
         dataIndex: ['statusID'],
-        type: 'select',
+        valueType: 'select',
         colProps: {
           xs: 24,
           md: 6,
@@ -100,6 +122,7 @@ export const fields = (id, form) => [
         },
       },
       {
+        hideInForm: !permission_url?.includes('/assignment/view_view'),
         title: 'Ngày hết hạn cấp',
         dataIndex: 'AssignEnd',
         valueType: 'date',
@@ -109,6 +132,7 @@ export const fields = (id, form) => [
         },
       },
       {
+        hideInForm: permission_url?.includes('/assignment/view_view'),
         title: 'Ngày tạo đề xuất',
         dataIndex: 'proposeAt',
         valueType: 'date',
@@ -118,8 +142,11 @@ export const fields = (id, form) => [
         },
       },
       {
-        title: 'Nội dung đề xuất',
-        dataIndex: 'proposeContent',
+        fieldProps: {
+          disabled: true,
+        },
+        title: 'Trạng thái đề xuất',
+        dataIndex: 'proposeStatus',
         type: 'select',
         request: async () => {
           return [
@@ -128,12 +155,26 @@ export const fields = (id, form) => [
             { label: 'Từ chối', value: 2 },
           ];
         },
+        initialValue: (CurrentUser?.rolename?.toUpperCase() == 'ADMIN' 
+        || CurrentUser?.rolename?.toUpperCase() == 'NHÂN VIÊN QUẢN TRỊ'
+      ) ? 1 : 0,
         colProps: {
           xs: 24,
-          md: 6,
+          md: 7,
         },
       },
       {
+        hideInForm: permission_url?.includes('/assignment/view_view'),
+        title: 'Nội dung đề xuất',
+        dataIndex: 'proposeContent',
+        valueType: 'textarea',
+        colProps: {
+          xs: 24,
+          md: 10,
+        },
+      },
+      {
+        hideInForm: true,
         title: 'Ghi chú',
         dataIndex: 'note',
         colProps: {

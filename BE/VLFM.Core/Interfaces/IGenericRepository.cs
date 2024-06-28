@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Reflection.Metadata;
 using System.Text;
 using System.Threading.Tasks;
@@ -12,7 +13,8 @@ namespace VLFM.Core.Interfaces
     {
         Task<T> GetById(int id);
         Task<IEnumerable<T>> GetAll();
-        Task<UserDetails> GetUserByUsername(string username);
+        Task<UserDetails> GetUserByUsername(string username); 
+        Task<RoleDetails> GetRoleByRolename(string rolename);
         Task Add(T entity);
         void Delete(T entity);
         void Update(T entity);

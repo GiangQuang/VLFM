@@ -125,9 +125,19 @@ export async function getAllstatus(
 }
 
 
+
+
 /** New lead PUT /api/lead */
 export async function updateOne(data: { [key: string]: any }, options?: { [key: string]: any }) {
   return request<TableListItem>(`api/deviceassignment/${data?.id}`, {
+    data,
+    method: 'POST',
+    ...(options || {}),
+  });
+}
+
+export async function updateAssignEnd(data: { [key: string]: any }, options?: { [key: string]: any }) {
+  return request<TableListItem>(`api/deviceassignment/assignend/${data?.id}`, {
     data,
     method: 'POST',
     ...(options || {}),
@@ -214,6 +224,10 @@ export async function importOne(data: { [key: string]: any }, options?: { [key: 
 
 export async function getById(id: string): Promise<{ data: [] }> {
   return request(`api/deviceassignment/${id}`);
+}
+
+export async function getpropertyById(id: string): Promise<{ data: [] }> {
+  return request(`api/property/${id}`);
 }
 
 // export async function getHistory(id: string): Promise<{ data: [] }> {

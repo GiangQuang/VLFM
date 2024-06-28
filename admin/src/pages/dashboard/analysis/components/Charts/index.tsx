@@ -2,7 +2,7 @@ import numeral from 'numeral';
 import ChartCard from './ChartCard';
 import Field from './Field';
 
-const yuan = (val: number | string) => `¥ ${numeral(val).format('0,0')}`;
+const yuan = (val: number | string) => `¥ ${val}`;
 
 const Charts = {
   yuan,

@@ -1,9 +1,8 @@
-import { request } from "@umijs/max";
-import { getAlldetailedreceipt, getAllproperty, getAllpropose, getAllreceipt, getAllstatus } from "../service";
+import { getById } from '@/pages/detailedreceiptmanagement/service';
+import { getAlldetailedreceipt, getAllproperty, getdetailedreceiptById } from '../service';
 
 export const fields = (id, form) => [
   {
-
     valueType: 'group',
     columns: [
       {
@@ -26,7 +25,7 @@ export const fields = (id, form) => [
         request: async () => {
           const res = await getAlldetailedreceipt();
           return res.data.map((item) => {
-            return {label:`${item?.dtReceiptID}`, value: item?.dtReceiptID}
+            return { label: `${item?.dtReceiptID}`, value: item?.dtReceiptID };
           });
         },
       },
@@ -36,15 +35,41 @@ export const fields = (id, form) => [
         type: 'select',
         colProps: {
           xs: 24,
-          md: 6,
+          md: 10,
         },
         request: async () => {
           const res = await getAllproperty();
           return res.data.map((item) => {
-            return {label:`${item?.propertyID} - ${item?.propertyname} `, value: item?.propertyID}
+            return {
+              label: `${item?.propertyID} - ${item?.propertyname} `,
+              value: item?.propertyID,
+            };
           });
         },
       },
+      // {
+      //   valueType: 'dependency',
+      //   name: ['dtReceiptID'],
+      //   columns: ({ dtReceiptID }) => {
+
+      //     return [
+      //       {
+      //         title: 'Mã tài sản',
+      //         dataIndex: 'propertyID',
+      //         colProps: {
+      //           xs: 24,
+      //           md: 9,
+      //         },
+      //         params: { dtReceiptID },
+      //         request: async () => {
+      //           const {data} = await getdetailedreceiptById(dtReceiptID);
+      //           form.setFieldValue(['propertyID'], data?.propertyID);
+      //         return [{label:`${data?.propertyID}`, value: `${data?.propertyID}`}];
+      //         },
+      //       },
+      //     ];
+      //   },
+      // },
       {
         title: 'Ngày bảo hành',
         dataIndex: 'warrantydayAt',
@@ -57,17 +82,20 @@ export const fields = (id, form) => [
       },
       {
         title: 'Mã trạng thái',
-        dataIndex: ['statusID'],
+        dataIndex: 'statusID',
         colProps: {
           xs: 24,
           md: 6,
         },
-        type: 'select',
+        valueType: 'select',
         request: async () => {
-          const res = await getAllstatus();
-          return res.data.map((item) => {
-            return {label:`${item?.statusID} - ${item?.statusname} `, value: item?.statusID}
-          });
+          return [
+            { label: 'Đang sử dụng', value: 0 },
+            { label: 'Hỏng', value: 1 },
+            { label: 'Chưa sử dụng', value: 2 },
+            { label: 'Mất', value: 3 },
+            { label: 'Đã hết hạn sử dụng', value: 4 },
+          ];
         },
       },
     ],

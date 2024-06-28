@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 using VLFM.Core.Interfaces;
@@ -40,6 +41,11 @@ namespace VLFM.Infrastructure.Repositories
         public void Update(T entity)
         {
             _dataContext.Set<T>().Update(entity);
+        }
+
+        public async Task<RoleDetails> GetRoleByRolename(string rolename)
+        {
+            return await _dataContext.Roles.FirstOrDefaultAsync(u => u.Rolename == rolename);
         }
     }
 }

@@ -3,6 +3,7 @@ import type { ActionType } from '@ant-design/pro-components';
 import { PageContainer, ProTable } from '@ant-design/pro-components';
 import type { MenuProps } from 'antd';
 import { Button, message, Popconfirm } from 'antd';
+import Cookies from 'js-cookie';
 import React, { useRef, useState } from 'react';
 import { history } from 'umi';
 import { column } from './constants/column';
@@ -30,6 +31,7 @@ const menuProps = {
 
 const TableList: React.FC = () => {
   const [selectedRowsState, setSelectedRows] = useState<TableListItem[]>([]);
+  const permission_url = Cookies.get('permission_url');
   // const [selectedRowsToConvert, setSelectedRowsToConvert] = useState<TableListItem[]>([]);
   // const [openModal, handleOpenModal] = useState(false);
   // const [openModalAssign, handleOpenModalAssign] = useState(false);
@@ -64,6 +66,7 @@ const TableList: React.FC = () => {
     ...column,
 
     {
+      hidden: !permission_url?.includes('/branch/update_update'),
       title: 'Action',
       dataIndex: 'option',
       valueType: 'option',
@@ -78,16 +81,6 @@ const TableList: React.FC = () => {
         >
           <EditOutlined title="Chỉnh sửa" />
         </Button>,
-        // <Button
-        //   key={1}
-        //   disabled={selectedRowsState?.length > 0}
-        //   onClick={() => {
-        //     handleOpenModalAssign(true);
-        //     setSelectedRowsToConvert([record]);
-        //   }}
-        // >
-        //   <UsergroupAddOutlined title="Xoá" />
-        // </Button>,
       ],
     },
   ];
@@ -98,29 +91,36 @@ const TableList: React.FC = () => {
         actionRef={actionRef}
         rowKey="id"
         toolBarRender={() => [
-          <Button
-            key={1}
-            type="primary"
-            menu={menuProps}
-            onClick={() => {
-              // handleCheckDupModalVisible(true)
-              history.push('/category/branch/add');
-            }}
-          >
-            <PlusOutlined /> Thêm mới
-          </Button>,
-          <Popconfirm
-            key={2}
-            title="Delete"
-            description="Bạn có chắc muốn xóa?"
-            onConfirm={() => handleRemove(selectedRowsState)}
-            okText="Có"
-            cancelText="Không"
-          >
-            <Button disabled={selectedRowsState?.length == 0} type="primary" danger>
-              <DeleteOutlined /> Xóa
-            </Button>
-          </Popconfirm>,
+          <div key={1}>
+            {permission_url?.includes('/branch/add_add') && (
+              <Button
+                type="primary"
+                menu={menuProps}
+                onClick={() => {
+                  // handleCheckDupModalVisible(true)
+                  history.push('/category/branch/add');
+                }}
+              >
+                <PlusOutlined /> Thêm mới
+              </Button>
+            )}
+          </div>,
+
+          <div key={2}>
+            {permission_url?.includes('/branch/delete_delete') && (
+              <Popconfirm
+                title="Delete"
+                description="Bạn có chắc muốn xóa?"
+                onConfirm={() => handleRemove(selectedRowsState)}
+                okText="Có"
+                cancelText="Không"
+              >
+                <Button disabled={selectedRowsState?.length == 0} type="primary" danger>
+                  <DeleteOutlined /> Xóa
+                </Button>
+              </Popconfirm>
+            )}
+          </div>,
         ]}
         // search={{
         //   // labelWidth: 120,

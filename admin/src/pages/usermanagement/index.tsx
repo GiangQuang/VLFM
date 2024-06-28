@@ -3,6 +3,7 @@ import type { ActionType } from '@ant-design/pro-components';
 import { PageContainer, ProTable } from '@ant-design/pro-components';
 import type { MenuProps } from 'antd';
 import { Button, message, Popconfirm } from 'antd';
+import Cookies from 'js-cookie';
 import React, { useRef, useState } from 'react';
 import { history } from 'umi';
 import { column } from './constants/column';
@@ -30,6 +31,7 @@ const menuProps = {
 
 const TableList: React.FC = () => {
   const [selectedRowsState, setSelectedRows] = useState<TableListItem[]>([]);
+  const permission_url = Cookies.get('permission_url');
   // const [selectedRowsToConvert, setSelectedRowsToConvert] = useState<TableListItem[]>([]);
   // const [openModal, handleOpenModal] = useState(false);
   // const [openModalAssign, handleOpenModalAssign] = useState(false);
@@ -63,6 +65,7 @@ const TableList: React.FC = () => {
     ...column,
 
     {
+      hidden: !permission_url?.includes('/user/update_update'),
       title: 'Action',
       dataIndex: 'option',
       valueType: 'option',
@@ -77,104 +80,47 @@ const TableList: React.FC = () => {
         >
           <EditOutlined title="Chỉnh sửa" />
         </Button>,
-        // <Button
-        //   key={1}
-        //   disabled={selectedRowsState?.length > 0}
-        //   onClick={() => {
-        //     handleOpenModalAssign(true);
-        //     setSelectedRowsToConvert([record]);
-        //   }}
-        // >
-        //   <UsergroupAddOutlined title="Xoá" />
-        // </Button>,
       ],
     },
   ];
   return (
     <PageContainer>
       <ProTable<TableListItem, TableListPagination>
-        headerTitle="Danh sách nhân viên"
+        headerTitle="Danh sách tài khoản"
         actionRef={actionRef}
         rowKey="id"
         toolBarRender={() => [
-          <Button
-            key={1}
-            type="primary"
-            menu={menuProps}
-            onClick={() => {
-              // handleCheckDupModalVisible(true)
-              history.push('/category/user/add');
-            }}
-          >
-            <PlusOutlined /> Thêm mới
-          </Button>,
-          <Popconfirm
-            key={2}
-            title="Delete"
-            description="Bạn có chắc muốn xóa?"
-            onConfirm={() => handleRemove(selectedRowsState)}
-            okText="Có"
-            cancelText="Không"
-          >
-            <Button disabled={selectedRowsState?.length === 0} type="primary" danger>
-              <DeleteOutlined /> Xóa
-            </Button>
-          </Popconfirm>,
+          <div key={1}>
+            {permission_url?.includes('/user/add_add') && (
+              <Button
+                type="primary"
+                menu={menuProps}
+                onClick={() => {
+                  // handleCheckDupModalVisible(true)
+                  history.push('/category/user/add');
+                }}
+              >
+                <PlusOutlined /> Thêm mới
+              </Button>
+            )}
+          </div>,
+
+          <div key={2}>
+            {permission_url?.includes('/user/delete_delete') && (
+              <Popconfirm
+                title="Delete"
+                description="Bạn có chắc muốn xóa?"
+                onConfirm={() => handleRemove(selectedRowsState)}
+                okText="Có"
+                cancelText="Không"
+              >
+                <Button disabled={selectedRowsState?.length == 0} type="primary" danger>
+                  <DeleteOutlined /> Xóa
+                </Button>
+              </Popconfirm>
+            )}
+          </div>,
         ]}
-        // search={{
-        //   // labelWidth: 120,
-
-        //   collapsed: false,
-        // }}
-        // toolBarRender={() => [
-        // <Dropdown.Button
-        //   type="primary"
-        //   menu={menuProps}
-        //   onClick={() => {
-        //     // history.push('/leads/add/personal')
-        //     handleOpenModal(true);
-        //   }}
-        // >
-        //   <PlusOutlined /> Thêm mới
-        // </Dropdown.Button>,
-        // <Button
-        //   // type={'link'}
-        //   onClick={() => {
-        //     console.log('selectedRowsState', selectedRowsState);
-        //     if (selectedRowsState.some((e) => e.status == 'ASSIGNED')) {
-        //       message.error('Vui lòng chỉ chọn các lead chưa được phân công');
-        //     } else {
-        //       handleOpenModalAssign(true);
-        //       setSelectedRowsToConvert(selectedRowsState);
-        //     }
-        //   }}
-        //   disabled={selectedRowsState?.length == 0}
-        // >
-        //   <UsergroupAddOutlined /> Phân công
-        // </Button>,
-        // <Button
-        //   // type={'link'}
-        //   onClick={() => {
-        //     handleOpenModalReject(true);
-        //     setSelectedRowsToConvert(selectedRowsState);
-        //   }}
-        //   disabled={selectedRowsState?.length == 0}
-        // >
-        //   <SyncOutlined /> Chuyển đổi lead
-        // </Button>,
-        // <Button
-        //   // type={'link'}
-        //   onClick={() => {
-        //     handleOpenModalConvert(true);
-        //     setSelectedRowsToConvert(selectedRowsState);
-        //   }}
-        //   disabled={selectedRowsState?.length == 0}
-        // >
-        //   <SyncOutlined /> Tiềm năng
-        // </Button>,
-
-        // ]}
-
         columns={tableColumn}
         request={getAll}
         rowSelection={{
@@ -183,59 +129,6 @@ const TableList: React.FC = () => {
           },
         }}
       />
-      {/* <SelectTypePoup
-        open={openModal}
-        onCancel={() => handleOpenModal(false)}
-        onFinish={async (values) => {
-          handleOpenModal(false);
-        }}
-      /> */}
-      {/* <ConvertOpportunityPopup
-        data={selectedRowsToConvert}
-        open={openModalConvert}
-        onCancel={() => handleOpenModalConvert(false)}
-        onFinish={async (values) => {
-          handleOpenModalConvert(false);
-        }}
-      /> */}
-      {/* <ApproveRejectPopup
-        data={selectedRowsToConvert}
-        open={openModalReject}
-        onCancel={() => {
-          handleOpenModalReject(false);
-        }}
-        onFinish={async (status) => {
-          handleOpenModalReject(false);
-          actionRef.current.reloadAndRest();
-          // if (status == 'OPPORTUNITY') {
-          //   history.push('/opportunities')
-          // } else {
-          //   actionRef.current.reloadAndRest();
-          // }
-        }}
-      />
-      <AssignPopup
-        data={selectedRowsToConvert}
-        open={openModalAssign}
-        onCancel={() => {
-          handleOpenModalAssign(false);
-        }}
-        onFinish={async (values) => {
-          handleOpenModalAssign(false);
-          actionRef.current.reloadAndRest();
-        }}
-      /> */}
-      {/* <NutritionalPopup
-        data={selectedRowsToConvert}
-        open={openModalAssign}
-        onCancel={() => {
-          handleOpenModalAssign(false);
-        }}
-        onFinish={async (values) => {
-          handleOpenModalAssign(false);
-        }}
-        actionRef={actionRef}
-      /> */}
     </PageContainer>
   );
 };

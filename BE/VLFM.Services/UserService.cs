@@ -1,5 +1,7 @@
-﻿using System;
+﻿using Microsoft.Extensions.Logging;
+using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
@@ -15,12 +17,14 @@ namespace VLFM.Services
     {
         public IUnitOfWork _unitOfWork;
         private readonly IPasswordService _passwordService;
+        private readonly IJwtService _jwtService;
 
-        public UserService(IUnitOfWork unitOfWork, IPasswordService passwordService) 
+        public UserService(IUnitOfWork unitOfWork, IPasswordService passwordService, IJwtService jwtService) 
 
         {
             _unitOfWork = unitOfWork;
             _passwordService = passwordService;
+            _jwtService = jwtService;
 
         }
 
@@ -83,16 +87,18 @@ namespace VLFM.Services
             {
                 var users = await _unitOfWork.Users.GetAll();
                 var employees = await _unitOfWork.Employees.GetAll();
+                var roles = await _unitOfWork.Roles.GetAll();
 
                 var query = from us in users
                             join emp in employees on us.EmployeeID equals emp.EmployeeID
+                            join ro in roles on us.RoleId equals ro.RoleId
                             select new UserResponse
                             {
                                 Id = us.Id,
                                 EmployeeID = us.EmployeeID,
                                 Username = us.Username,
                                 Password = us.Password,
-                                Role = us.Role,
+                                RoleId = us.RoleId,
                                 Status = us.Status,
                             };
                 return query.ToList();
@@ -110,19 +116,21 @@ namespace VLFM.Services
             {
                 var users = await _unitOfWork.Users.GetById(Id);
                 var employees = await _unitOfWork.Employees.GetAll();
+                var roles = await _unitOfWork.Roles.GetAll();
 
                 if (users != null)
                 {
                     try
                     {
                         var employee = employees.FirstOrDefault(emp => emp.EmployeeID == users.EmployeeID);
+                        var role = roles.FirstOrDefault(ro => ro.RoleId == users.RoleId);
                         var response = new UserResponse
                         {
                             Id = users.Id,
-                            EmployeeID = users.EmployeeID,
+                            EmployeeID = users.EmployeeID,  
                             Username = users.Username,
                             Password = users.Password,
-                            Role = users.Role,
+                            RoleId = users.RoleId,
                             Status = users.Status,
                         };
 
@@ -148,7 +156,7 @@ namespace VLFM.Services
                     user.EmployeeID = userDetails.EmployeeID;
                     user.Username = userDetails.Username;
                     user.Password = hashedPassword;
-                    user.Role = userDetails.Role;
+                    user.RoleId = userDetails.RoleId;
                     user.Status = userDetails.Status;
 
                     _unitOfWork.Users.Update(user);
@@ -162,6 +170,52 @@ namespace VLFM.Services
                 }
             }
             return false;
-        } 
+        }
+
+        public async Task<UserResponse> GetCurrentUser(string token)
+        {
+            var id = _jwtService.ValidateJwtToken(token);
+            if (id == null)
+            {
+                return null;
+            }
+
+            var user = await _unitOfWork.Users.GetById(id.Value);
+            if (user == null)
+            {
+                return null;
+            }
+            var employee = await _unitOfWork.Employees.GetAll();
+            var roleEntity = await _unitOfWork.Roles.GetById(user.RoleId);
+            if (roleEntity == null)
+            {
+                return null;
+            }
+            var accesses = await _unitOfWork.Accesses.GetAll();
+            var permissionUrls = accesses
+            .Where(a => a.RoleId == roleEntity.RoleId)
+            .Select(a => a.PermissionURL)
+            .ToArray();
+            var employeename = employee
+            .Where(e => e.EmployeeID == user.EmployeeID)
+            .Select(e => e.Employeename)
+            .FirstOrDefault();
+            var role = await _unitOfWork.Roles.GetAll();
+            var rolename = role
+            .Where(r => r.RoleId == user.RoleId)
+            .Select(r => r.Rolename)
+            .FirstOrDefault();
+
+            return new UserResponse
+            {
+                Id = user.Id,
+                EmployeeID = user.EmployeeID,
+                Username = user.Username,
+                RoleId = user.RoleId,
+                Rolename = rolename,
+                name = employeename,
+                PermissionURL = permissionUrls  
+            };
+        }
     }
 }

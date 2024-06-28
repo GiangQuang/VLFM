@@ -21,6 +21,18 @@ export const fields = (id, form) => [
           xs: 24,
           md: 6,
         },
+        formItemProps: {
+          rules: [
+            {
+              required: true,
+              message: 'Vui lòng nhập tên cơ sở!',
+            },
+            {
+              pattern: /^[a-zA-Z0-9]+$/,
+              message: 'Chỉ cho phép nhập ký tự hoặc số!',
+            },
+          ],
+        },
       },
       {
         title: 'Địa chỉ',
@@ -28,6 +40,14 @@ export const fields = (id, form) => [
         colProps: {
           xs: 24,
           md: 10,
+        },
+        formItemProps: {
+          rules: [
+            {
+              required: true,
+              message: 'Vui lòng nhập địa chỉ!',
+            },
+          ],
         },
       },
     ],

@@ -1,4 +1,4 @@
-import { request } from "@umijs/max";
+
 import { getAllBranch } from "../service";
 
 export const fields = (id, form) => [
@@ -24,11 +24,20 @@ export const fields = (id, form) => [
           xs: 24,
           md: 6,
         },
+        formItemProps: {
+          rules: [
+            {
+              required: true,
+              message: 'Vui lòng chọn cơ sở!',
+            },
+          ],
+        },
         request: async () => {
           const res = await getAllBranch();
-          return res.data.map((item) => {
-            return {label:`${item?.branchID} - ${item?.branchname} `, value: item?.branchID}
-          });
+          return res.data.map((item) => ({
+            label: `${item?.branchID} - ${item?.branchname}`,
+            value: item?.branchID,
+          }));
         },
       },
       {
@@ -37,6 +46,14 @@ export const fields = (id, form) => [
         colProps: {
           xs: 24,
           md: 6,
+        },
+        formItemProps: {
+          rules: [
+            {
+              required: true,
+              message: 'Vui lòng nhập tên bộ phận!',
+            },
+          ],
         },
       },
       {

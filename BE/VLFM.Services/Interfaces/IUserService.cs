@@ -12,10 +12,11 @@ namespace VLFM.Services.Interfaces
     {
         Task<bool> CreateUser(UserDetails userDetails);
         Task<IEnumerable<UserResponse>> GetAllUsers();
-        Task<UserResponse> GetUserById(int Id);
+        Task<UserResponse> GetUserById(int id);
         Task<UserDetails> LoginUser(string Username, string Password);
-        /*Task<UserResponse> GetCurrentUser();*/
         Task<bool> UpdateUser(UserDetails userDetails);
         Task<bool> DeleteUser(List<UserResponse> users);
+        Task<UserResponse> GetCurrentUser(string token);
+        /*Task<bool> CheckAccess(IEnumerable<string> roleId, string accessURL);*/
     }
 }

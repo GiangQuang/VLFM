@@ -44,7 +44,7 @@ const operationTabList = [
     key: 'projects',
     tab: (
       <span>
-        项目{' '}
+        应用{' '}
         <span
           style={{
             fontSize: 14,

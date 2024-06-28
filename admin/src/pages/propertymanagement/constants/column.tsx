@@ -1,8 +1,7 @@
-import { ACTIVE_TYPE_OPTIONS, STATUS_TYPE_OPTIONS } from '@/helper/constants';
 import type { ProColumns } from '@ant-design/pro-components';
 import { TableListItem } from '../data';
-import { Space, Tag, Tooltip } from 'antd';
-import { QuestionCircleOutlined } from '@ant-design/icons';
+import { getAllpropType } from '../service';
+
 
 export const column: ProColumns<TableListItem>[] = [
   {
@@ -21,8 +20,15 @@ export const column: ProColumns<TableListItem>[] = [
     dataIndex: 'propertycode',
   },
   {
-    title: 'Mã loại tài sản',
+    title: 'Loại tài sản',
     dataIndex: ['propTypeID'],
+    valueType: 'select',
+    request: async () => {
+      const res = await getAllpropType();
+      return res.data.map((item) => {
+        return {label:`${item?.propTypename} `, value: item?.propTypeID}
+      });
+    },
   },
   {
     title: 'Tên tài sản',
@@ -36,46 +42,4 @@ export const column: ProColumns<TableListItem>[] = [
     title: 'Ghi chú',
     dataIndex: 'note',
   },
-  // {
-  //   title: 'Giá',
-  //   dataIndex: 'ots_price',
-  //   valueType:'money'
-  // },
-  // {
-  //   title: 'VAT (%)',
-
-  //   dataIndex: 'Vat_Tax_Rate',
-  //   render: (_, record) => (
-  //     <Space>
-  //       <span>{record?.pos_id?.[0]?.Vat_Tax_Rate}</span>
-  //     </Space>
-  //   ),
-  // },
-  // {
-  //   title: 'Nhóm món',
-  //   dataIndex: ['type_id'],
-  //   render: (_, record) => (
-  //     <Space>
-  //       <span>{record?.type_id?.[0]?.name}</span>
-  //     </Space>
-  //   ),
-  // },
-  // {
-  //   title: 'Trạng thái',
-  //   dataIndex: 'status',
-  //   render: (_, record) => (
-  //     <Space>
-  //       {record?.status === "ACTIVE" ? <Tag color="green">Active</Tag> : <Tag color="red">Closed</Tag>}
-  //       {/* {record.labels.map(({ name, color }) => (
-  //               <Tag color={color} key={name}>
-  //                 {name}
-  //               </Tag>
-  //             ))} */}
-  //     </Space>
-  //   ),
-  // },
-  // {
-  //   title: 'Nhóm món',
-  //   dataIndex: 'Expiry_Date',
-  // },
 ];

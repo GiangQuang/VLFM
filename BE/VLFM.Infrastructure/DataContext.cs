@@ -27,11 +27,15 @@ namespace VLFM.Infrastructure
         public DbSet<DetailedReceiptDetails> DetailedReceipts { get; set; }
         public DbSet<PropertyImportDetails> PropertyImports { get; set; }
         public DbSet<DeviceAssignmentDetails> DeviceAssignments { get; set; }
+        public DbSet<DeviceReturnDetails> DeviceReturns { get; set; }
+        public DbSet<RoleDetails> Roles { get; set; }
+        public DbSet<PermissionDetails> Permissions { get; set; }
+        public DbSet<AccessDetails> Accesses { get; set; }
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             if (!optionsBuilder.IsConfigured)
             {
-                optionsBuilder.UseSqlServer("Server=MSI;Database=facilitiesdb;User Id=sa;Password=12345;Persist Security Info=True");
+                optionsBuilder.UseSqlServer("Server=MSI;Database=vlfmdb;User Id=sa;Password=12345;Persist Security Info=True");
             }
         }
     }

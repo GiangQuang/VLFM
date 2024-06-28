@@ -21,6 +21,10 @@ namespace VLFM.Core.Interfaces
         IDetailedReceiptRepository ReceiptsDetailed { get; }
         IPropertyImportRepository PropertyImports { get; }
         IDeviceAssignmentRepository DeviceAssignments { get; }
+        IDeviceReturnRepository DeviceReturns { get; }
+        IRoleRepository Roles { get; }
+        IPermissionRepository Permissions { get; }
+        IAccessRepository Accesses { get; }
         int Save();
     }
 }

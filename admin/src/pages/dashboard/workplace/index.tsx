@@ -165,7 +165,7 @@ const Workplace: FC = () => {
                   }}
                   bordered={false}
                 >
-                  <Card.Meta
+                  {/* <Card.Meta
                     title={
                       <div className={styles.cardTitle}>
                         <Avatar size="small" src={item.logo} />
@@ -181,7 +181,7 @@ const Workplace: FC = () => {
                         {dayjs(item.updatedAt).fromNow()}
                       </span>
                     )}
-                  </div>
+                  </div> */}
                 </Card>
               </Card.Grid>
             ))}

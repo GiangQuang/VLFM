@@ -63,7 +63,11 @@ namespace VLFM.Controllers
             }
             if (!string.IsNullOrEmpty(StatusID))
             {
-                DetailsList = DetailsList.Where(d => d.StatusID.ToString().Contains(StatusID, StringComparison.OrdinalIgnoreCase)).ToList();
+                int parsedStatusID;
+                if (int.TryParse(StatusID, out parsedStatusID))
+                {
+                    DetailsList = DetailsList.Where(d => d.StatusID == parsedStatusID).ToList();
+                }
             }
             var responseData = new
             {

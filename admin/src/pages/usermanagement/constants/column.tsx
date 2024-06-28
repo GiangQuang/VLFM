@@ -1,6 +1,7 @@
 
 import type { ProColumns } from '@ant-design/pro-components';
 import { TableListItem } from '../data';
+import { getAllemployee, getAllrole, } from '../service';
 
 
 export const column: ProColumns<TableListItem>[] = [
@@ -12,8 +13,15 @@ export const column: ProColumns<TableListItem>[] = [
   },
 
   {
-    title: 'Mã nhân viên',
+    title: 'Tên nhân viên',
     dataIndex: ['employeeID'],
+    valueType: 'select',
+    request: async () => {
+      const res = await getAllemployee();
+      return res.data.map((item) => {
+        return { label: `${item?.employeename}`, value: item?.employeeID };
+      });
+    },
   },
   {
     title: 'Tên tài khoản',
@@ -21,7 +29,14 @@ export const column: ProColumns<TableListItem>[] = [
   },
   {
     title: 'Role',
-    dataIndex: 'role',
+    dataIndex: ['roleId'],
+    valueType: 'select',
+    request: async () => {
+      const res = await getAllrole();
+      return res.data.map((item) => {
+        return { label: `${item?.rolename}`, value: item?.roleId };
+      });
+    },
   },
   {
     title: 'Trạng thái',
@@ -36,46 +51,4 @@ export const column: ProColumns<TableListItem>[] = [
     },
     
   },
-  // {
-  //   title: 'Giá',
-  //   dataIndex: 'ots_price',
-  //   valueType:'money'
-  // },
-  // {
-  //   title: 'VAT (%)',
-
-  //   dataIndex: 'Vat_Tax_Rate',
-  //   render: (_, record) => (
-  //     <Space>
-  //       <span>{record?.pos_id?.[0]?.Vat_Tax_Rate}</span>
-  //     </Space>
-  //   ),
-  // },
-  // {
-  //   title: 'Nhóm món',
-  //   dataIndex: ['type_id'],
-  //   render: (_, record) => (
-  //     <Space>
-  //       <span>{record?.type_id?.[0]?.name}</span>
-  //     </Space>
-  //   ),
-  // },
-  // {
-  //   title: 'Trạng thái',
-  //   dataIndex: 'status',
-  //   render: (_, record) => (
-  //     <Space>
-  //       {record?.status === "ACTIVE" ? <Tag color="green">Active</Tag> : <Tag color="red">Closed</Tag>}
-  //       {/* {record.labels.map(({ name, color }) => (
-  //               <Tag color={color} key={name}>
-  //                 {name}
-  //               </Tag>
-  //             ))} */}
-  //     </Space>
-  //   ),
-  // },
-  // {
-  //   title: 'Nhóm món',
-  //   dataIndex: 'Expiry_Date',
-  // },
 ];

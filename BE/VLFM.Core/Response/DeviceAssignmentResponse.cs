@@ -12,12 +12,12 @@ namespace VLFM.Core.Response
     {
         public int Id { get; set; }
         public string DeviceAssignmentID { get; set; } 
-        public DateTime AssignAt { get; set; }
-        public string EmployeeAssignID { get; set; }
+        public DateTime? AssignAt { get; set; }
+        public string? EmployeeAssignID { get; set; }
         public string? PropImportID { get; set; }
         public string EmployeeReceiveID { get; set; }
         public string DeptID { get; set; }
-        public string StatusID { get; set; }
+        public string? StatusID { get; set; }
         public DateTime? AssignEnd { get; set; } 
         public DateTime? ProposeAt { get; set; } 
         public string? ProposeContent { get; set; }

@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using VLFM.Core.DTO;
 using VLFM.Core.Models;
 using VLFM.Core.Response;
 using VLFM.Services;
@@ -125,6 +126,7 @@ namespace VLFM.Controllers
                 return BadRequest();
             }
         }
+
         [HttpPost]
         public async Task<IActionResult> CreateDeviceAssignment(DeviceAssignmentDetails deviceAssignmentDetails)
         {
@@ -141,22 +143,39 @@ namespace VLFM.Controllers
         }
 
         [HttpPost("{Id}")]
-        public async Task<IActionResult> UpdateDeviceAssignment(DeviceAssignmentDetails deviceAssignmentDetails)
+        public async Task<IActionResult> UpdateDeviceAssignment(DeviceAssignmentUpdateDTO updateDTO)
         {
-            if (deviceAssignmentDetails != null)
-            {
-                var isDeviceAssignmentUpdated = await _deviceAssignmentService.UpdateDeviceAssignment(deviceAssignmentDetails);
-                if (isDeviceAssignmentUpdated)
-                {
-                    return Ok(isDeviceAssignmentUpdated);
-                }
-                return BadRequest();
+            if(updateDTO == null)
+    {
+                return BadRequest("Invalid data.");
             }
-            else
+
+            var isDeviceAssignmentUpdated = await _deviceAssignmentService.UpdateDeviceAssignment(updateDTO);
+            if (isDeviceAssignmentUpdated)
             {
-                return BadRequest();
+                return Ok(isDeviceAssignmentUpdated);
             }
+
+            return BadRequest("Failed to update device assignment.");
         }
+
+        [HttpPost("assignend/{Id}")]
+        public async Task<IActionResult> UpdateAssignEnd(AssignEndUpdateDTO assignEndDTO)
+        {
+            if (assignEndDTO == null)
+            {
+                return BadRequest("Invalid data.");
+            }
+
+            var isDeviceAssignmentUpdated = await _deviceAssignmentService.UpdateAssignEnd(assignEndDTO);
+            if (isDeviceAssignmentUpdated)
+            {
+                return Ok(isDeviceAssignmentUpdated);
+            }
+
+            return BadRequest("Failed to update device assignment.");
+        }
+
 
         [HttpDelete]
         public async Task<IActionResult> DeleteDeviceAssignment(List<DeviceAssignmentResponse> assign)

@@ -9,6 +9,7 @@ import AddEditForm from './components/AddEditForm';
 import { useMatch } from '@umijs/max';
 import { history } from 'umi';
 import qs from 'qs';
+import Cookies from 'js-cookie';
 
 const AddEditPage: React.FC = () => {
   const matchId = useMatch('/device/assignment/update/:id')
@@ -19,6 +20,9 @@ const AddEditPage: React.FC = () => {
     type = null
   }
   const params = qs.parse(history.location.search, { ignoreQueryPrefix: true })
+
+  const employeeID = Cookies.get('employeeID');
+  console.log("🚀 ~ employeeID:", employeeID)
   // console.log('defaultParams', defaultParams)
   const handleSubmit = async (values: { [x: string]: any; }) => {
     console.log('values', values)
