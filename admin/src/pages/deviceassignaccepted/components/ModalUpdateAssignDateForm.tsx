@@ -116,14 +116,30 @@ const ModalUpdateAssignDateForm = (props) => {
                 xs: 24,
                 md: 8,
               },
+              formItemProps: {
+                rules: [
+                  {
+                    required: true,
+                    message: 'Vui lòng chọn ngày hết hạn cấp!',
+                  },
+                ],
+              },
             },
             {
               title: 'Nội dung gia hạn',
-              dataIndex: 'proposeContent',
+              dataIndex: 'note',
               valueType: 'textarea',
               colProps: {
                 xs: 24,
                 md: 24,
+              },
+              formItemProps: {
+                rules: [
+                  {
+                    required: true,
+                    message: 'Vui lòng nhập nội dung gia hạn!',
+                  },
+                ],
               },
             },
           ]}

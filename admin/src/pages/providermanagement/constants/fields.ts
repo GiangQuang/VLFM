@@ -2,10 +2,8 @@ import { request } from "@umijs/max";
 
 export const fields = (id, form) => [
   {
-
     valueType: 'group',
     columns: [
-      
       {
         hideInForm: true,
         title: 'Mã dự phòng',
@@ -22,6 +20,14 @@ export const fields = (id, form) => [
           xs: 24,
           md: 10,
         },
+        formItemProps: {
+          rules: [
+            {
+              required: true,
+              message: 'Vui lòng nhập tên nhà cung cấp!',
+            },
+          ],
+        },
       },
       {
         title: 'Địa chỉ',
@@ -29,6 +35,14 @@ export const fields = (id, form) => [
         colProps: {
           xs: 24,
           md: 10,
+        },
+        formItemProps: {
+          rules: [
+            {
+              required: true,
+              message: 'Vui lòng nhập địa chỉ!',
+            },
+          ],
         },
       },
       {

@@ -156,42 +156,42 @@ const routes = [
       },
 
       //Quản lý trạng thái
-      {
-        name: 'Quản lý trạng thái',
-        path: '/category/status',
-        component: './statusmanagement/',
-      },
-      {
-        name: 'Thêm tài sản',
-        path: '/category/status/add',
-        hideInMenu: true,
-        component: './statusmanagement/addEdit.tsx',
-      },
-      {
-        name: 'Cập nhật tài sản',
-        path: '/category/status/update/:id',
-        hideInMenu: true,
-        component: './statusmanagement/addEdit.tsx',
-      },
+      // {
+      //   name: 'Quản lý trạng thái',
+      //   path: '/category/status',
+      //   component: './statusmanagement/',
+      // },
+      // {
+      //   name: 'Thêm tài sản',
+      //   path: '/category/status/add',
+      //   hideInMenu: true,
+      //   component: './statusmanagement/addEdit.tsx',
+      // },
+      // {
+      //   name: 'Cập nhật tài sản',
+      //   path: '/category/status/update/:id',
+      //   hideInMenu: true,
+      //   component: './statusmanagement/addEdit.tsx',
+      // },
 
       //Quản lý đề xuất
-      {
-        name: 'Quản lý đề xuất',
-        path: '/category/propose',
-        component: './proposesmanagement',
-      },
-      {
-        name: 'Thêm đề xuất',
-        path: '/category/propose/add',
-        hideInMenu: true,
-        component: './proposesmanagement/addEdit.tsx',
-      },
-      {
-        name: 'Cập nhật đề xuất',
-        path: '/category/propose/update/:id',
-        hideInMenu: true,
-        component: './proposesmanagement/addEdit.tsx',
-      },
+      // {
+      //   name: 'Quản lý đề xuất',
+      //   path: '/category/propose',
+      //   component: './proposesmanagement',
+      // },
+      // {
+      //   name: 'Thêm đề xuất',
+      //   path: '/category/propose/add',
+      //   hideInMenu: true,
+      //   component: './proposesmanagement/addEdit.tsx',
+      // },
+      // {
+      //   name: 'Cập nhật đề xuất',
+      //   path: '/category/propose/update/:id',
+      //   hideInMenu: true,
+      //   component: './proposesmanagement/addEdit.tsx',
+      // },
     ],
   },
   {

@@ -18,7 +18,7 @@ export const column: ProColumns<TableListItem>[] = [
     valueType: 'date',
   },
   {
-    title: 'Mã nhân viên',
+    title: 'Tên nhân viên',
     dataIndex: ['employeeID'],
     valueType: 'select',
     request: async () => {
@@ -29,7 +29,7 @@ export const column: ProColumns<TableListItem>[] = [
     },
   },
   {
-    title: 'Mã nhà cung cấp',
+    title: 'Nhà cung cấp',
     dataIndex: ['providerID'],
     valueType: 'select',
     request: async () => {

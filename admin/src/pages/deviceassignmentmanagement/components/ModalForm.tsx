@@ -3,10 +3,12 @@ import { Form, Modal, message } from 'antd';
 import { TableListItem, } from '../data';
 import { getAllemployee, getAllpropertyimport, getAllstatus, updateOne } from '../service';
 import { getAllproperty } from '@/pages/detailedreceiptmanagement/service';
+import { useModel } from '@umijs/max';
 
 const ModalForm = (props) => {
   const [form] = Form.useForm();
-
+  const { initialState } = useModel('@@initialState');
+  const { currentUser } = initialState || {};
   form.setFieldsValue(props.record)
   const handleSubmit = async (values) => {
     const hide = message.loading("Đang xử lí");
@@ -64,14 +66,24 @@ const ModalForm = (props) => {
                 xs: 24,
                 md: 8,
               },
+              formItemProps: {
+                rules: [
+                  {
+                    required: true,
+                    message: 'Vui lòng chọn ngày cấp!',
+                  },
+                ],
+              },
             },
             {
+              fieldProps: {disabled: true,},
               title: 'Nhân viên cấp',
               dataIndex: ['employeeAssignID'],
               valueType: 'select',
               request: async () => {
                 const res = await getAllemployee();
                 return res.data.map((item) => {
+                  form.setFieldValue(['employeeAssignID'] ,currentUser?.employeeID);
                   return {label:`${item?.employeename}`, value: item?.employeeID}
                 });
               },
@@ -81,9 +93,17 @@ const ModalForm = (props) => {
               },
             },
             {
-              title: 'Mã tài sản nhập',
+              title: 'Tài sản',
               dataIndex: ['propImportID'],
               valueType: 'select',
+              formItemProps: {
+                rules: [
+                  {
+                    required: true,
+                    message: 'Vui lòng chọn tài sản!',
+                  },
+                ],
+              },
               request: async () => {
                 const res = await getAllpropertyimport();
           
@@ -91,7 +111,7 @@ const ModalForm = (props) => {
           
                 const data = res.data.map((item) => {
                   const property = PropertyData.data.find((property) => property.propertyID === item.propertyID);
-                  return {label: `${item?.propImportID} (${property?.propertyname})`, value: item?.propImportID};
+                  return {label: `(${property?.propertyname}) ${item?.propImportID} `, value: item?.propImportID};
                 });
           
                 return data; 
@@ -111,6 +131,14 @@ const ModalForm = (props) => {
                   return {label:`${item?.statusname}`, value: item?.statusID}
                 });
               },
+              formItemProps: {
+                rules: [
+                  {
+                    required: true,
+                    message: 'Vui lòng chọn trạng thái lúc cấp!',
+                  },
+                ],
+              },
             },
             {
               title: 'Ngày hết hạn cấp',
@@ -119,6 +147,14 @@ const ModalForm = (props) => {
               colProps: {
                 xs: 24,
                 md: 8,
+              },
+              formItemProps: {
+                rules: [
+                  {
+                    required: true,
+                    message: 'Vui lòng chọn Ngày hết hạn cấp!',
+                  },
+                ],
               },
             },
             {
@@ -137,8 +173,8 @@ const ModalForm = (props) => {
               },
             },
             {
-              title: 'Ghi chú',
-              dataIndex: 'proposeContent',
+              title: 'Lý do từ chối',
+              dataIndex: 'note',
               valueType: 'textarea',
               colProps: {
                 xs: 24,
@@ -146,7 +182,6 @@ const ModalForm = (props) => {
               },
             },
           ]}
-          
           grid
           form={form}
           submitter={false}

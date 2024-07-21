@@ -71,7 +71,7 @@ export const fields = (id, form, employeeID, CurrentUser) => [
       },
       {
         fieldProps: {
-          disabled: !(CurrentUser?.rolename?.toUpperCase() == 'ADMIN' || CurrentUser?.rolename?.toUpperCase() == 'NHÂN VIÊN QUẢN TRỊ'),
+          disabled: !(CurrentUser?.rolename?.toUpperCase() == 'ADMIN' || CurrentUser?.rolename?.toUpperCase() == 'NHÂN VIÊN QUẢN TRỊ' || CurrentUser?.rolename?.toUpperCase() == 'NHÂN VIÊN QUẢN LÝ THIẾT BỊ'),
         },
         title: 'Nhân viên được cấp',
         dataIndex: ['employeeReceiveID'],
@@ -117,7 +117,7 @@ export const fields = (id, form, employeeID, CurrentUser) => [
         request: async () => {
           const res = await getAllstatus();
           return res.data.map((item) => {
-            return {label:`${item?.statusID} - ${item?.statusname}`, value: item?.statusID}
+            return {label:`${item?.statusname}`, value: item?.statusID}
           });
         },
       },

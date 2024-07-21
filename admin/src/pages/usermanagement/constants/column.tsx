@@ -2,8 +2,10 @@
 import type { ProColumns } from '@ant-design/pro-components';
 import { TableListItem } from '../data';
 import { getAllemployee, getAllrole, } from '../service';
+import Cookies from "js-cookie";
 
 
+const getname = Cookies.getCookies("employeename");
 export const column: ProColumns<TableListItem>[] = [
   {
     title: 'STT',
@@ -49,6 +51,6 @@ export const column: ProColumns<TableListItem>[] = [
         text: 'Đã nghỉ',
       },
     },
-    
+
   },
 ];

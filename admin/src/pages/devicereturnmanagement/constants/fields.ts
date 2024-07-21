@@ -1,6 +1,6 @@
 import { getAlldeviceassignment, getAllemployee } from '../service';
 
-export const fields = (id, form) => [
+export const fields = (id, form, CurrentUser) => [
   {
     valueType: 'group',
     columns: [
@@ -21,11 +21,19 @@ export const fields = (id, form) => [
           xs: 24,
           md: 6,
         },
+        formItemProps: {
+          rules: [
+            {
+              required: true,
+              message: 'Vui lòng chọn ngày trả!',
+            },
+          ],
+        },
       },
       {
         title: 'Nhân viên thực hiện trả',
         dataIndex: ['employeeReturnID'],
-        type: 'select',
+        valueType: 'select',
         colProps: {
           xs: 24,
           md: 6,
@@ -38,6 +46,14 @@ export const fields = (id, form) => [
               value: item?.employeeID,
             };
           });
+        },
+        formItemProps: {
+          rules: [
+            {
+              required: true,
+              message: 'Vui lòng chọn nhân viên thực hiện trả!',
+            },
+          ],
         },
       },
       {
@@ -54,6 +70,14 @@ export const fields = (id, form) => [
             return { label: `${item?.deviceAssignmentID}`, value: item?.deviceAssignmentID };
           });
         },
+        formItemProps: {
+          rules: [
+            {
+              required: true,
+              message: 'Vui lòng chọn mã phiếu cấp thiết bị!',
+            },
+          ],
+        },
       },
       {
         title: 'Trạng thái lúc trả',
@@ -62,20 +86,22 @@ export const fields = (id, form) => [
           xs: 24,
           md: 6,
         },
+        formItemProps: {
+          rules: [
+            {
+              required: true,
+              message: 'Vui lòng chọn trạng thái lúc trả!',
+            },
+          ],
+        },
         valueType: 'select',
-        valueEnum: {
-          0: {
-            text: 'Bình thường',
-          },
-          1: {
-            text: 'Hỏng',
-          },
-          2: {
-            text: 'Mất',
-          },
-          3: {
-            text: 'Đã hết hạn sử dụng',
-          },
+        request: async () => {
+          return [
+            { label: 'Bình thường', value: 0 },
+            { label: 'Hỏng', value: 1 },
+            { label: 'Mất', value: 2 },
+            { label: 'Đã hết hạn sử dụng', value: 3 },
+          ];
         },
       },
       {

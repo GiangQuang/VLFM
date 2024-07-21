@@ -22,6 +22,14 @@ export const fields = (id, form) => [
           xs: 24,
           md: 6,
         },
+        formItemProps: {
+          rules: [
+            {
+              required: true, 
+              message: 'Vui lòng chọn mã hoá đơn nhập chi tiết!',
+            },
+          ],
+        },
         request: async () => {
           const res = await getAlldetailedreceipt();
           return res.data.map((item) => {
@@ -30,12 +38,20 @@ export const fields = (id, form) => [
         },
       },
       {
-        title: 'Mã tài sản',
+        title: 'Tên tài sản',
         dataIndex: ['propertyID'],
         type: 'select',
         colProps: {
           xs: 24,
           md: 10,
+        },
+        formItemProps: {
+          rules: [
+            {
+              required: true, 
+              message: 'Vui lòng chọn tên tài sản!',
+            },
+          ],
         },
         request: async () => {
           const res = await getAllproperty();
@@ -74,20 +90,37 @@ export const fields = (id, form) => [
         title: 'Ngày bảo hành',
         dataIndex: 'warrantydayAt',
         valueType: 'date',
+        formItemProps: {
+          rules: [
+            {
+              required: true,
+              message: 'Vui lòng chọn ngày bảo hành!',
+            },
+          ],
+        },
       },
       {
         title: 'Ngày hết bảo hành',
         dataIndex: 'warrantydayEnd',
         valueType: 'date',
+        formItemProps: {
+          rules: [
+            {
+              required: true,
+              message: 'Vui lòng chọn ngày hết bảo hành!',
+            },
+          ],
+        },
       },
       {
-        title: 'Mã trạng thái',
+        title: 'Trạng thái',
         dataIndex: 'statusID',
         colProps: {
           xs: 24,
           md: 6,
         },
         valueType: 'select',
+        initialValue: 2,
         request: async () => {
           return [
             { label: 'Đang sử dụng', value: 0 },

@@ -3,10 +3,8 @@ import { getAllpropType } from "../service";
 
 export const fields = (id, form) => [
   {
-
     valueType: 'group',
     columns: [
-
       {
         hideInForm: true,
         title: 'Mã dự phòng',
@@ -23,20 +21,41 @@ export const fields = (id, form) => [
           xs: 24,
           md: 6,
         },
+        formItemProps: {
+          rules: [
+            {
+              required: true,
+              message: 'Vui lòng nhập mã số!',
+            },
+            {
+              pattern: /^[0-9]*$/,
+              message: 'Vui lòng chỉ nhập số!',
+            },
+          ],
+        },
       },
       {
-        title: 'Mã loại tài sản',
+        title: 'Loại tài sản',
         dataIndex: ['propTypeID'],
         type: 'select',
         colProps: {
           xs: 24,
           md: 6,
         },
+        formItemProps: {
+          rules: [
+            {
+              required: true,
+              message: 'Vui lòng chọn loại tài sản!',
+            },
+          ],
+        },
         request: async () => {
           const res = await getAllpropType();
-          return res.data.map((item) => {
-            return {label:`${item?.propTypeID} - ${item?.propTypename} `, value: item?.propTypeID}
-          });
+          return res.data.map((item) => ({
+            label: `${item?.propTypeID} - ${item?.propTypename}`,
+            value: item?.propTypeID,
+          }));
         },
       },
       {
@@ -46,6 +65,14 @@ export const fields = (id, form) => [
           xs: 24,
           md: 6,
         },
+        formItemProps: {
+          rules: [
+            {
+              required: true,
+              message: 'Vui lòng nhập tên tài sản!',
+            },
+          ],
+        },
       },
       {
         title: 'Đơn vị tính',
@@ -53,6 +80,18 @@ export const fields = (id, form) => [
         colProps: {
           xs: 24,
           md: 10,
+        },
+        formItemProps: {
+          rules: [
+            {
+              required: true,
+              message: 'Vui lòng nhập đơn vị tính!',
+            },
+            {
+              pattern: /^[0-9]*$/,
+              message: 'Vui lòng chỉ nhập số!',
+            },
+          ],
         },
       },
       {

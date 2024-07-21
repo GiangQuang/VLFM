@@ -6,6 +6,7 @@ import type { TableListItem } from '../data';
 import { Form, Skeleton } from 'antd';
 import { getById } from '../service';
 import { fields } from '../constants/fields';
+import { useModel } from '@umijs/max';
 
 
 export type FormValueType = {
@@ -29,7 +30,8 @@ export type AddEditFormProps = {
 const AddEditForm: React.FC<AddEditFormProps> = (props) => {
   const [form] = Form.useForm();
   const [loading, setLoading] = useState(false)
-
+  const { initialState } = useModel('@@initialState');
+  const { currentUser } = initialState || {};
   const loadData = async (id) => {
     const res = await getById(id);
     console.log("🚀 ~ loadData ~ res:", res)
@@ -57,7 +59,7 @@ const AddEditForm: React.FC<AddEditFormProps> = (props) => {
       ...props.params
     }}
     title={props.selectedId ? `Cập nhật` : 'Thêm mới'}
-    columns={fields(props.selectedId,form)
+    columns={fields(props.selectedId,form,"",currentUser)
     } // JSON Schema tên là columns. Giúp định dạng các thuộc tính của Form
     grid
     onFinish={props.onFinish}

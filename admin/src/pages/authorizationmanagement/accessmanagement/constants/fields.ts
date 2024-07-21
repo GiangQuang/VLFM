@@ -11,6 +11,14 @@ export const fields = (form) => [
           xs: 24,
           md: 6,
         },
+        formItemProps: {
+          rules: [
+            {
+              required: true,
+              message: 'Vui lòng chọn tên quyền!',
+            },
+          ],
+        },
         valueType: 'select',
         request: async () => {
           const res = await getAllrole();
@@ -26,6 +34,14 @@ export const fields = (form) => [
           xs: 24,
           md: 6,
         },
+        formItemProps: {
+          rules: [
+            {
+              required: true,
+              message: 'Vui lòng chọn tên chức năng!',
+            },
+          ],
+        },
         valueType: 'select',
         request: async () => {
           const res = await getAllpermission();
@@ -40,6 +56,14 @@ export const fields = (form) => [
         colProps: {
           xs: 24,
           md: 9,
+        },
+        formItemProps: {
+          rules: [
+            {
+              required: true,
+              message: 'Vui lòng nhập đường dẫn!',
+            },
+          ],
         },
       },
       {

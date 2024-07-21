@@ -1,13 +1,10 @@
 import { request } from "@umijs/max";
 import { getAllprovider, getAllemployee } from "../service";
 
-
 export const fields = (id, form) => [
   {
-
     valueType: 'group',
     columns: [
-      
       {
         hideInForm: true,
         title: 'Mã dự phòng',
@@ -25,35 +22,61 @@ export const fields = (id, form) => [
           xs: 24,
           md: 6,
         },
+        formItemProps: {
+          rules: [
+            {
+              required: true,
+              message: 'Vui lòng chọn ngày nhập!',
+            },
+          ],
+        },
       },
       {
-        title: 'Mã nhân viên',
+        title: 'Tên nhân viên',
         type: 'select',
         dataIndex: ['employeeID'],
         colProps: {
           xs: 24,
           md: 6,
         },
+        formItemProps: {
+          rules: [
+            {
+              required: true,
+              message: 'Vui lòng chọn nhân viên!',
+            },
+          ],
+        },
         request: async () => {
           const res = await getAllemployee();
-          return res.data.map((item) => {
-            return {label:`${item?.employeeID} - ${item?.employeename} `, value: item?.employeeID}
-          });
+          return res.data.map((item) => ({
+            label: `${item?.employeeID} - ${item?.employeename}`,
+            value: item?.employeeID,
+          }));
         },
       },
       {
-        title: 'Mã nhà cung cấp',
+        title: 'Nhà cung cấp',
         type: 'select',
         dataIndex: ['providerID'],
         colProps: {
           xs: 24,
           md: 6,
         },
+        formItemProps: {
+          rules: [
+            {
+              required: true,
+              message: 'Vui lòng chọn nhà cung cấp!',
+            },
+          ],
+        },
         request: async () => {
           const res = await getAllprovider();
-          return res.data.map((item) => {
-            return {label:`${item?.providerID} - ${item?.providername} `, value: item?.providerID}
-          });
+          return res.data.map((item) => ({
+            label: `${item?.providerID} - ${item?.providername}`,
+            value: item?.providerID,
+          }));
         },
       },
       {
@@ -62,6 +85,14 @@ export const fields = (id, form) => [
         colProps: {
           xs: 24,
           md: 6,
+        },
+        formItemProps: {
+          rules: [
+            {
+              required: true,
+              message: 'Vui lòng nhập số hoá đơn!',
+            },
+          ],
         },
       },
       {

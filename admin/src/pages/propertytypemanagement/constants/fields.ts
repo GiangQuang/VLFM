@@ -1,10 +1,7 @@
-
 export const fields = (id, form) => [
   {
-
     valueType: 'group',
     columns: [
-      
       {
         hideInForm: true,
         title: 'Mã dự phòng',
@@ -20,6 +17,14 @@ export const fields = (id, form) => [
         colProps: {
           xs: 24,
           md: 6,
+        },
+        formItemProps: {
+          rules: [
+            {
+              required: true,
+              message: 'Vui lòng nhập tên loại!',
+            },
+          ],
         },
       },
       {

@@ -21,15 +21,21 @@ export const fields = (id, form) => [
           xs: 24,
           md: 6,
         },
-        // fieldProps:{
-        //   mode: 'search',
-        // },
         valueType: 'select',
+        formItemProps: {
+          rules: [
+            {
+              required: true,
+              message: 'Vui lòng chọn mã hoá đơn nhập - số hoá đơn!',
+            },
+          ],
+        },
         request: async () => {
           const res = await getAllreceipt();
-          return res.data.map((item) => {
-            return { label: `${item?.receiptID} - ${item?.receiptcode}`, value: item?.receiptID };
-          });
+          return res.data.map((item) => ({
+            label: `${item?.receiptID} - ${item?.receiptcode}`,
+            value: item?.receiptID,
+          }));
         },
       },
       {
@@ -40,14 +46,20 @@ export const fields = (id, form) => [
           xs: 24,
           md: 10,
         },
+        formItemProps: {
+          rules: [
+            {
+              required: true,
+              message: 'Vui lòng chọn tên tài sản!',
+            },
+          ],
+        },
         request: async () => {
           const res = await getAllproperty();
-          return res.data.map((item) => {
-            return {
-              label: `${item?.propertyname}`,
-              value: item?.propertyID,
-            };
-          });
+          return res.data.map((item) => ({
+            label: `${item?.propertyname}`,
+            value: item?.propertyID,
+          }));
         },
       },
       {
@@ -57,6 +69,18 @@ export const fields = (id, form) => [
           xs: 24,
           md: 6,
         },
+        formItemProps: {
+          rules: [
+            {
+              required: true,
+              message: 'Vui lòng nhập số lượng!',
+            },
+            {
+              pattern: /^[0-9]*$/,
+              message: 'Vui lòng chỉ nhập số!',
+            },
+          ],
+        },
       },
       {
         title: 'Đơn giá',
@@ -65,6 +89,18 @@ export const fields = (id, form) => [
           xs: 24,
           md: 6,
         },
+        formItemProps: {
+          rules: [
+            {
+              required: true,
+              message: 'Vui lòng nhập đơn giá!',
+            },
+            {
+              pattern: /^[0-9]*$/,
+              message: 'Vui lòng chỉ nhập số!',
+            },
+          ],
+        },
       },
       {
         title: 'Nhãn hiệu',
@@ -72,6 +108,14 @@ export const fields = (id, form) => [
         colProps: {
           xs: 24,
           md: 6,
+        },
+        formItemProps: {
+          rules: [
+            {
+              required: true, 
+              message: 'Vui lòng nhập nhãn hiệu!',
+            },
+          ],
         },
       },
     ],

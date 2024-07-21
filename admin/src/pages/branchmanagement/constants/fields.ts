@@ -27,10 +27,6 @@ export const fields = (id, form) => [
               required: true,
               message: 'Vui lòng nhập tên cơ sở!',
             },
-            {
-              pattern: /^[a-zA-Z0-9]+$/,
-              message: 'Chỉ cho phép nhập ký tự hoặc số!',
-            },
           ],
         },
       },

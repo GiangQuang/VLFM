@@ -25,8 +25,7 @@ export const fields = (id, form) => [
           rules: [
             {
               required: true,
-              pattern: /^[a-zA-Z\s]+$/,
-              message: 'Vui lòng nhập tên nhân viên hợp lệ! (Chỉ chứa chữ cái và khoảng trắng)',
+              message: 'Vui lòng nhập tên nhân viên! (Chỉ chứa chữ cái và khoảng trắng)',
             },
           ],
         },
@@ -43,7 +42,7 @@ export const fields = (id, form) => [
             {
               required: true,
               pattern: /([\+84|84|0]+(3|5|7|8|9|1[2|6|8|9]))+([0-9]{8})\b/,
-              message: 'Vui lòng nhập số điện thoại hợp lệ! (Bắt đầu với +84 0 và đủ 10 số)',
+              message: 'Vui lòng nhập số điện thoại hợp lệ! (Bắt đầu với 0 và đủ 10 số)',
             },
           ],
         },
